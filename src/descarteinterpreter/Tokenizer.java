@@ -143,7 +143,8 @@ public class Tokenizer {
         int temp, tokenNum = -1;
         TokenPair result = null;
         
-        while(tokenNum == -1) { // return only non-garbage
+        while(tokenNum == -1 || tokenNum == 55) {
+        // return only non-garbage or non-whitespace
             temp = fileIn.read();
             tempChars.delete(0, tempChars.length()); // clear buffer
             tempChars.append((char) temp); // add the first character
