@@ -138,6 +138,8 @@ public class Tokenizer {
      * to its internal list, along with any intervening garbage blocks.
      * Whitespace is given the numeric code 55, and garbage is -1.
      * @return  the next token from the stream, or null if no tokens are left
+     * @throws  IOException if it cannot read from fileIn
+     * @throws  BufferOverflowException if pushback exceeds buffer
      */
     public TokenPair getToken() throws IOException, BufferOverflowException {
         int temp, tokenNum = -1;
@@ -470,6 +472,7 @@ public class Tokenizer {
     
     /**
      * Closes the stream belonging to the Tokenizer object.
+     * @throws  IOException if cannot close fileIn
      */
     public void close() throws IOException {
         if(fileIn != null) {
