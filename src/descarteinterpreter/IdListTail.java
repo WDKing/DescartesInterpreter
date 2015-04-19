@@ -8,15 +8,15 @@
 package descarteinterpreter;
 
 /**
- * Representation of a "Id-List-Tail" node in a parse tree for Descartes-2
+ * Representation of a "IdListTail" node in a parse tree for Descartes-2
  */
-public class Id-List-Tail extends ParseTreeNode {
+public class IdListTail extends ParseTreeNode {
     
-    public Id-List-Tail(int code) {
+    public IdListTail(int code) {
         super(code);
     }
     
-    protected Id-List-Tail(int code, ParseTreeNode parent) {
+    protected IdListTail(int code, ParseTreeNode parent) {
         super(code, parent);
     }
     
