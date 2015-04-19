@@ -45,7 +45,7 @@ public class BoolFacNode extends ParseTreeNode {
      * "29.   bool-factor : arith-expr relation-option"
      * @param   token   the current token
      */
-    private void doRule24(TokenPair token) {
+    private void doRule29(TokenPair token) {
         addChild(48);
         addChild(49);
     }
