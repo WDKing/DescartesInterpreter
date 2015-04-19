@@ -68,4 +68,9 @@ public class FactorNode extends ParseTreeNode {
      * "47.   factor : ( expr )"
      * @param   token   the current token
      */
+    private void doRule47(TokenPair token) {
+        addChild(27);
+        addChild(40);
+        addChild(28);
+    }
 }
