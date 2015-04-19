@@ -28,17 +28,17 @@ public class BoolFacTailNode extends ParseTreeNode {
         int tokenNum = token.getTokenNum();
         
         switch(tokenNum) {
-            case :     // PERIOD
-            case :     // SEMICOLON
-            case :     // THEN
-            case :     // ELSE
-            case :     // FI
-            case :     // REPEAT
-            case :     // OR
-            case :     // -)
+            case 0:     // PERIOD
+            case 1:     // SEMICOLON
+            case 3:     // THEN
+            case 4:     // ELSE
+            case 5:     // FI
+            case 9:     // REPEAT
+            case 15:    // OR
+            case 28:    // )
                         doRule28(token);
                         break;
-            case :     // AND
+            case 16:    // AND
                         doRule27(token);
                         break;
             default:    throw new IllegalArgumentException();
