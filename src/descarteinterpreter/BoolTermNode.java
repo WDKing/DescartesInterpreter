@@ -42,7 +42,7 @@ public class BoolTermNode extends ParseTreeNode {
    
     /**
      * Add child nodes based on rule 26 in the grammar:
-     * "bool-term : bool-factor bool-factor-tail"
+     * "26.   bool-term : bool-factor bool-factor-tail"
      * @param   token   the current token
      */
     private void doRule26(TokenPair token) {
