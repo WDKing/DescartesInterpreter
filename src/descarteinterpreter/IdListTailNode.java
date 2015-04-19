@@ -10,13 +10,13 @@ package descarteinterpreter;
 /**
  * Representation of a "IdListTail" node in a parse tree for Descartes-2
  */
-public class IdListTail extends ParseTreeNode {
+public class IdListTailNode extends ParseTreeNode {
     
-    public IdListTail(int code) {
+    public IdListTailNode(int code) {
         super(code);
     }
     
-    protected IdListTail(int code, ParseTreeNode parent) {
+    protected IdListTailNode(int code, ParseTreeNode parent) {
         super(code, parent);
     }
     
