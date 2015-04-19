@@ -36,7 +36,7 @@ public class RelOptNode extends ParseTreeNode {
             case 9:     // REPEAT
             case 15:    // OR
             case 16:    // AND
-            case 29:    // )
+            case 28:    // )
                         doRule36(token);
                         break;
             case 17:    // <
