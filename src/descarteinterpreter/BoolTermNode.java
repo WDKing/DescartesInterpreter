@@ -10,13 +10,13 @@ package descarteinterpreter;
 /**
  * Representation of a "BoolTerm" node in a parse tree for Descartes-2
  */
-public class BoolTerm extends ParseTreeNode {
+public class BoolTermNode extends ParseTreeNode {
     
-    public BoolTerm(int code) {
+    public BoolTermNode(int code) {
         super(code);
     }
     
-    protected BoolTerm(int code, ParseTreeNode parent) {
+    protected BoolTermNode(int code, ParseTreeNode parent) {
         super(code, parent);
     }
     
