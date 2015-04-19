@@ -62,7 +62,7 @@ public class BoolTermTailNode extends ParseTreeNode {
      * "25.   bool-term-tail : "
      * @param   token   the current token
      */
-    private void doRule24(TokenPair token) {
+    private void doRule25(TokenPair token) {
         // Intentionally Left Empty
     }
 }
