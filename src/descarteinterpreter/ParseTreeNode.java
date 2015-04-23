@@ -66,37 +66,37 @@ public class ParseTreeNode implements Iterable<ParseTreeNode> {
                             newNode = new StmtListNode(code, this);
                             break;
                 case 32:    // stmt
-                            // newNode = new StmtNode(code, this);
+                            newNode = new StmtNode(code, this);
                             break;
                 case 33:    // stmt-tail
-                            // newNode = new StmtTailNode(code, this);
+                            newNode = new StmtTailNode(code, this);
                             break;
                 case 34:    // if-stmt
-                            // newNode = new IfStmtNode(code, this);
+                            newNode = new IfStmtNode(code, this);
                             break;
                 case 35:    // loop-stmt
-                            // newNode = new LoopStmtNode(code, this);
+                            newNode = new LoopStmtNode(code, this);
                             break;
                 case 36:    // break-stmt
-                            // newNode = new BrkStmtNode(code, this);
+                            newNode = new BrkStmtNode(code, this);
                             break;
                 case 37:    // assign-stmt
-                            // newNode = new AssnStmtNode(code, this);
+                            newNode = new AssnStmtNode(code, this);
                             break;
                 case 38:    // read-stmt
-                            // newNode = new ReadStmtNode(code, this);
+                            newNode = new ReadStmtNode(code, this);
                             break;
                 case 39:    // print-stmt
-                            // newNode = new PrntStmtNode(code, this);
+                            newNode = new PrntStmtNode(code, this);
                             break;
                 case 40:    // expr
-                            // newNode = new ExprNode(code, this);
+                            newNode = new ExprNode(code, this);
                             break;
                 case 41:    // else-part
-                            // newNode = new ElsePartNode(code, this);
+                            newNode = new ElsePartNode(code, this);
                             break;
                 case 42:    // id-option
-                            // newNode = new IdOptionNode(code, this);
+                            newNode = new IdOptionNode(code, this);
                             break;
                 case 43:    // id-list-tail
                             newNode = new IdListTailNode(code, this);
