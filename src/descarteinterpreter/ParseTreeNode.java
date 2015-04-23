@@ -99,40 +99,40 @@ public class ParseTreeNode implements Iterable<ParseTreeNode> {
                             // newNode = new IdOptionNode(code, this);
                             break;
                 case 43:    // id-list-tail
-                            // newNode = new IdListTailNode(code, this);
+                            newNode = new IdListTailNode(code, this);
                             break;
                 case 44:    // bool-term
-                            // newNode = new BoolTermNode(code, this);
+                            newNode = new BoolTermNode(code, this);
                             break;
                 case 45:    // bool-term-tail
-                            // newNode = new BoolTermTailNode(code, this);
+                            newNode = new BoolTermTailNode(code, this);
                             break;
                 case 46:    // bool-factor
-                            // newNode = new BoolFacNode(code, this);
+                            newNode = new BoolFacNode(code, this);
                             break;
                 case 47:    // bool-factor-tail
-                            // newNode = new BoolFacTailNode(code, this);
+                            newNode = new BoolFacTailNode(code, this);
                             break;
                 case 48:    // arith-expr
-                            // newNode = new ArithExprNode(code, this);
+                            newNode = new ArithExprNode(code, this);
                             break;
                 case 49:    // relation-option
-                            // newNode = new RelOptNode(code, this);
+                            newNode = new RelOptNode(code, this);
                             break;
                 case 50:    // term
-                            // newNode = new TermNode(code, this);
+                            newNode = new TermNode(code, this);
                             break;
                 case 51:    // term-tail
-                            // newNode = new TermTailNode(code, this);
+                            newNode = new TermTailNode(code, this);
                             break;
                 case 52:    // factor
-                            // newNode = new FactorNode(code, this);
+                            newNode = new FactorNode(code, this);
                             break;
                 case 53:    // factor-tail
-                            // newNode = new FactorTailNode(code, this);
+                            newNode = new FactorTailNode(code, this);
                             break;
                 case 54:    // atom
-                            // newNode = new AtomNode(code, this);
+                            newNode = new AtomNode(code, this);
                             break;
                 default:    throw new IllegalArgumentException();
             }
