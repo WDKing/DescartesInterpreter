@@ -78,16 +78,16 @@ public class ParseTreeNode implements Iterable<ParseTreeNode> {
                             newNode = new LoopStmtNode(code, this);
                             break;
                 case 36:    // break-stmt
-                            newNode = new BrkStmtNode(code, this);
+                            newNode = new BreakStmtNode(code, this);
                             break;
                 case 37:    // assign-stmt
-                            newNode = new AssnStmtNode(code, this);
+                            newNode = new AssignStmtNode(code, this);
                             break;
                 case 38:    // read-stmt
                             newNode = new ReadStmtNode(code, this);
                             break;
                 case 39:    // print-stmt
-                            newNode = new PrntStmtNode(code, this);
+                            newNode = new PrintStmtNode(code, this);
                             break;
                 case 40:    // expr
                             newNode = new ExprNode(code, this);
