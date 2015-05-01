@@ -8,14 +8,15 @@
 package descarteinterpreter;
 
 /**
- * Representation of a "RelOpt" node in a parse tree for Descartes-2
+ * Representation of a "relation-option" node (#49) in a parse tree for
+ * Descartes-2
  */
 public class RelOptNode extends ParseTreeNode {
     
-    public RelOptNode(int code) {
-        super(code);
-    }
-    
+    /**
+     * @see descarteinterpreter.ParseTreeNode#Constructor(int code,
+     * ParseTreeNode parent)
+     */
     protected RelOptNode(int code, ParseTreeNode parent) {
         super(code, parent);
     }
@@ -24,6 +25,7 @@ public class RelOptNode extends ParseTreeNode {
      * Add child nodes based on the current token and the grammar's rules.
      * @param   token   the current token
      */
+    @Override
     public void populateChildren(TokenPair token) {
         int tokenNum = token.getTokenNum();
         
@@ -59,13 +61,11 @@ public class RelOptNode extends ParseTreeNode {
                         break;
             default:    throw new IllegalArgumentException();
         }
-      }
-    
-    //  List of Rules to Complete
+    }
     
     /**
      * Add child nodes based on rule 30 in the grammar:
-     * "30.   relation-option : < arith-expr"
+     * "30. relation-option : < arith-expr"
      * @param   token   the current token
      */
     private void doRule30(TokenPair token) {
@@ -75,7 +75,7 @@ public class RelOptNode extends ParseTreeNode {
 
     /**
      * Add child nodes based on rule 31 in the grammar:
-     * "31.   relation-option : <= arith-expr"
+     * "31. relation-option : <= arith-expr"
      * @param   token   the current token
      */
     private void doRule31(TokenPair token) {
@@ -85,7 +85,7 @@ public class RelOptNode extends ParseTreeNode {
 
     /**
      * Add child nodes based on rule 32 in the grammar:
-     * "32.   relation-option : = arith-expr"
+     * "32. relation-option : = arith-expr"
      * @param   token   the current token
      */
     private void doRule32(TokenPair token) {
@@ -95,7 +95,7 @@ public class RelOptNode extends ParseTreeNode {
 
     /**
      * Add child nodes based on rule 33 in the grammar:
-     * "33.   relation-option : >= arith-expr"
+     * "33. relation-option : >= arith-expr"
      * @param   token   the current token
      */
     private void doRule33(TokenPair token) {
@@ -105,7 +105,7 @@ public class RelOptNode extends ParseTreeNode {
 
     /**
      * Add child nodes based on rule 34 in the grammar:
-     * "34.   relation-option : > arith-expr"
+     * "34. relation-option : > arith-expr"
      * @param   token   the current token
      */
     private void doRule34(TokenPair token) {
@@ -115,7 +115,7 @@ public class RelOptNode extends ParseTreeNode {
 
     /**
      * Add child nodes based on rule 35 in the grammar:
-     * "35.   relation-option : <> arith-expr"
+     * "35. relation-option : <> arith-expr"
      * @param   token   the current token
      */
     private void doRule35(TokenPair token) {
@@ -125,7 +125,7 @@ public class RelOptNode extends ParseTreeNode {
 
     /**
      * Add child nodes based on rule 36 in the grammar:
-     * "36.   relation-option :"
+     * "36. relation-option :"
      * @param   token   the current token
      */
     private void doRule36(TokenPair token) {

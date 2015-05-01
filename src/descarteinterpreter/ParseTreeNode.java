@@ -7,21 +7,22 @@
 
 package descarteinterpreter;
 
-import java.util.List;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.HashMap;
 
 /**
  * Parent class for the nodes in ParseTree, for Descartes-2 Interpreter;
  */
-public class ParseTreeNode implements Iterable<ParseTreeNode> {
-    /** the numeric code for element of the grammar the node represents */
+public abstract class ParseTreeNode implements Iterable<ParseTreeNode> {
+    /** The numeric code for element of the grammar the node represents */
     protected final int code;
-    /** set to true for leaves, which must have no children */
-    protected boolean isLeaf;
-    /** the parent node of this node */
+    /** The parent node of this node */
     protected final ParseTreeNode parent;
-    /** a list of the child nodes of this node */
+    /** A list of the child nodes of this node */
     protected final List<ParseTreeNode> children =  new LinkedList<>();
+    /** The symbol table for this program */
+    protected static HashMap<String, Double> symbolTable = new HashMap<>();
     
     /**
      * Sole public constructor.
@@ -30,20 +31,18 @@ public class ParseTreeNode implements Iterable<ParseTreeNode> {
      *                      node represents
      */
     public ParseTreeNode(int code) {
-        this.isLeaf = false;
         this.code = code;
         this.parent = null;
     }
     
     /**
-     * Private constructor. Initializes the parent field, but does not add the
+     * Protected constructor. Initializes the parent field, but does not add the
      * new node to the children field of the parent node.
      * @param code          the numeric code for element of the grammar the new
      *                      node represents
      * @param parent        the parent node for the new node
      */
     protected ParseTreeNode(int code, ParseTreeNode parent) {
-        this.isLeaf = false;
         this.code = code;
         this.parent = parent;
     }
@@ -142,7 +141,20 @@ public class ParseTreeNode implements Iterable<ParseTreeNode> {
     }
     
     /**
-     * Gets the child corresponding to the given index.
+     * Build the tree starting with this node, using recursive descent.
+     * @param   lexer   the Tokenizer that pulls tokens from the program file
+     */
+    public void buildTree(Tokenizer lexer) {
+        ParseTreeNode nextNode;
+
+        populateChildren(lexer.getCurrToken());
+        nextNode = getNextInTree();
+        if(nextNode != null) {
+            nextNode.buildTree(lexer);
+        }
+    }
+    
+    /**
      * @param   index          the index in the children field
      * @return  the child at the given index
      */
@@ -176,7 +188,7 @@ public class ParseTreeNode implements Iterable<ParseTreeNode> {
      * @return      the index at which the given child is found,
      *              or null if it is not in the list of children
      */
-    public int getIndex(ParseTreeNode node) {
+    public int getIndexOfChild(ParseTreeNode node) {
         int result = -1;
         boolean gotResult = false;
         ParseTreeNode tempNode;
@@ -193,20 +205,53 @@ public class ParseTreeNode implements Iterable<ParseTreeNode> {
     }
     
     /**
+     * @return      the first child of this node, or null if it has no children
+     */
+    private ParseTreeNode getNextDownTree()
+    {
+        ParseTreeNode result;
+        
+        if(hasChildren()) {
+            result = children.get(0);
+        } else {
+            result = null;
+        }
+        
+        return result;
+    }
+    
+    /**
      * @return      the node which would come after this one in a left-first
      *              traversal, or null if this node is the last
      */
     public ParseTreeNode getNextInTree() {
         ParseTreeNode result;
         
-        if(hasChildren()) {
-            result = children.get(0);
-        } else {
-            result = getNextSibling();
+        result = getNextDownTree();
+        
+        if(result == null) {
+            result = getNextUpTree();
         }
         
-        if(result == null && !parent.isRoot()) {
-            result = parent.getNextInTree();
+        return result;
+    }
+    
+    /**
+     * @return  the next sibling in its parent's list, or if it doesn't have
+     *          one, its parent's next sibling, or grandparent's next sibling,
+     *          etc; or null of none of its ancestors have any siblings
+     */
+    private ParseTreeNode getNextUpTree()
+    {
+        ParseTreeNode result;
+        
+        if(isRoot()) {
+            result = null;
+        } else {
+            result = getNextSibling();
+            if(result == null) {
+                result = getParent().getNextUpTree();
+            }
         }
         
         return result;
@@ -214,16 +259,17 @@ public class ParseTreeNode implements Iterable<ParseTreeNode> {
     
     /**
      * @return      the node whose index in the children field of this node's
-     *              parent is one higher than the index for this node
+     *              parent is one higher than the index for this node, or null
+     *              if there are none
      */
     public ParseTreeNode getNextSibling() {
-        int nextIndex = parent.getIndex(this) + 1;
+        int nextIndex = (parent.getIndexOfChild(this) + 1);
         ParseTreeNode result = null;
-        
+
         if(parent.getChildCount() > nextIndex) {
             result = parent.getChildAt(nextIndex);
         }
-        
+
         return result;
     }
     
@@ -249,11 +295,27 @@ public class ParseTreeNode implements Iterable<ParseTreeNode> {
     }
     
     /**
+     * @param   node    the node to compare with this node
+     * @return true if both nodes share the same parent, and false otherwise
+     */
+    public boolean isSibling(ParseTreeNode node) {
+        return this.getParent() == node.getParent();
+    }
+    
+    /**
      * @return      true if the code corresponds to a terminal symbol in the
      *              grammar
      */
     public boolean isTerminal() {
         return (this.code >= 0 && this.code <= 29);
+    }
+    
+    /**
+     * Empty method to add child nodes. Should be overridden.
+     * @param   token   the current token
+     */
+    public void populateChildren(TokenPair token) {
+        
     }
     
     /**

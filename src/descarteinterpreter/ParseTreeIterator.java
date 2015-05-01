@@ -16,7 +16,9 @@ import java.util.NoSuchElementException;
  */
 public class ParseTreeIterator implements Iterator<ParseTreeNode>
 {
+    /** The node that the iterator starts at */
     ParseTreeNode startNode;
+    /** The node that the iterator is at currently */
     ParseTreeNode currNode;
     
     public ParseTreeIterator(ParseTreeNode start) {
@@ -27,14 +29,15 @@ public class ParseTreeIterator implements Iterator<ParseTreeNode>
     public boolean hasNext() {
         ParseTreeNode nextNode = currNode.getNextInTree();
         return (nextNode != null
-            && nextNode.getParent() != startNode.getParent());
+                && !nextNode.isSibling(startNode));
     }
     
     @Override
     public ParseTreeNode next() throws NoSuchElementException {
         ParseTreeNode result = currNode.getNextInTree();
         
-        if(result == null || result.getParent() == startNode.getParent()) {
+        if(result == null
+            || result.isSibling(startNode)) {
             throw new NoSuchElementException("No next element in tree.");
         }
 
