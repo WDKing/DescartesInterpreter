@@ -8,14 +8,15 @@
 package descarteinterpreter;
 
 /**
- * Representation of a "BoolFacTail" node in a parse tree for Descartes-2
+ * Representation of a "bool-factor-tail" node (#47) in a parse tree for
+ * Descartes-2
  */
-public class BoolFacTailNode extends ParseTreeNode {
+public class BoolFacTailNode extends EvalTypeNode {
     
-    public BoolFacTailNode(int code) {
-        super(code);
-    }
-    
+    /**
+     * @see descarteinterpreter.ParseTreeNode#Constructor(int code,
+     * ParseTreeNode parent)
+     */
     protected BoolFacTailNode(int code, ParseTreeNode parent) {
         super(code, parent);
     }
@@ -24,6 +25,7 @@ public class BoolFacTailNode extends ParseTreeNode {
      * Add child nodes based on the current token and the grammar's rules.
      * @param   token   the current token
      */
+    @Override
     public void populateChildren(TokenPair token) {
         int tokenNum = token.getTokenNum();
         
@@ -43,13 +45,13 @@ public class BoolFacTailNode extends ParseTreeNode {
                         break;
             default:    throw new IllegalArgumentException();
         }
-      }
+    }
     
     //  List of Rules to Complete
     
     /**
      * Add child nodes based on rule 27 in the grammar:
-     * "27.   bool-factor-tail : AND bool-factor bool-factor-tail"
+     * "27. bool-factor-tail : AND bool-factor bool-factor-tail"
      * @param   token   the current token
      */
     private void doRule27(TokenPair token) {

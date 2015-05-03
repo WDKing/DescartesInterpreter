@@ -8,14 +8,15 @@
 package descarteinterpreter;
 
 /**
- * Representation of a "BoolTermTail" node in a parse tree for Descartes-2
+ * Representation of a "bool-term-tail" node (#45) in a parse tree for
+ * Descartes-2
  */
-public class BoolTermTailNode extends ParseTreeNode {
-    
-    public BoolTermTailNode(int code) {
-        super(code);
-    }
-    
+public class BoolTermTailNode extends EvalTypeNode {
+
+    /**
+     * @see descarteinterpreter.ParseTreeNode#Constructor(int code,
+     * ParseTreeNode parent)
+     */
     protected BoolTermTailNode(int code, ParseTreeNode parent) {
         super(code, parent);
     }
@@ -24,6 +25,7 @@ public class BoolTermTailNode extends ParseTreeNode {
      * Add child nodes based on the current token and the grammar's rules.
      * @param   token   the current token
      */
+    @Override
     public void populateChildren(TokenPair token) {
         int tokenNum = token.getTokenNum();
         
@@ -42,7 +44,7 @@ public class BoolTermTailNode extends ParseTreeNode {
                         break;
             default:    throw new IllegalArgumentException();
         }
-      }
+    }
     
     //  List of Rules to Complete
    
@@ -59,7 +61,7 @@ public class BoolTermTailNode extends ParseTreeNode {
     
     /**
      * Add child nodes based on rule 25 in the grammar:
-     * "25.   bool-term-tail : "
+     * "25. bool-term-tail : "
      * @param   token   the current token
      */
     private void doRule25(TokenPair token) {

@@ -8,22 +8,41 @@
 package descarteinterpreter;
 
 /**
- * Representation of a "Atom" node in a parse tree for Descartes-2
+ * Representation of a "atom" node (#54) in a parse tree for Descartes-2
  */
-public class AtomNode extends ParseTreeNode {
+public class AtomNode extends EvalTypeNode {
     
-    public AtomNode(int code) {
-        super(code);
-    }
-    
+    /**
+     * @see descarteinterpreter.ParseTreeNode#Constructor(int code,
+     * ParseTreeNode parent)
+     */
     protected AtomNode(int code, ParseTreeNode parent) {
         super(code, parent);
+    }
+    
+    @Override
+    public double evaluate() {
+        double result = Double.NaN;
+        TerminalNode child = (TerminalNode) getChildAt(0);
+        
+        try {
+            if(child.getCode() == 7) { // if the child is an ID
+                result = symbolTable.get(child.getTokenStr());
+            } else if(child.getCode() == 29) {
+                result = Double.parseDouble(child.getTokenStr());
+            }
+        } catch(RuntimeException e) {
+            result = Double.NaN;
+        }
+        
+        return result;
     }
     
     /**
      * Add child nodes based on the current token and the grammar's rules.
      * @param   token   the current token
      */
+    @Override
     public void populateChildren(TokenPair token) {
         int tokenNum = token.getTokenNum();
         
@@ -36,13 +55,13 @@ public class AtomNode extends ParseTreeNode {
                         break;
             default:    throw new IllegalArgumentException();
         }
-      }
+    }
     
     //  List of Rules to Complete
     
     /**
      * Add child nodes based on rule 48 in the grammar:
-     * "48.   atom : ID"
+     * "48. atom : ID"
      * @param   token   the current token
      */
     private void doRule48(TokenPair token) {
@@ -51,7 +70,7 @@ public class AtomNode extends ParseTreeNode {
 
     /**
      * Add child nodes based on rule 49 in the grammar:
-     * "49.   atom : CONST"
+     * "49. atom : CONST"
      * @param   token   the current token
      */
     private void doRule49(TokenPair token) {

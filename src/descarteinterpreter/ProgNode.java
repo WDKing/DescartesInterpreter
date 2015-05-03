@@ -7,23 +7,59 @@
 
 package descarteinterpreter;
 
+import java.io.IOException;
+import java.nio.BufferOverflowException;
+
 /**
- * Representation of a "prog" node in a parse tree for Descartes-2
+ * Representation of a "prog" node (#30) in a parse tree for Descartes-2
  */
-public class ProgNode extends ParseTreeNode {
-    
+public class ProgNode extends ExecTypeNode {
+
+    /**
+     * @see descarteinterpreter.ParseTreeNode#Constructor(int code)
+     */
     public ProgNode(int code) {
         super(code);
     }
     
+    /**
+     * @see descarteinterpreter.ParseTreeNode#Constructor(int code,
+     * ParseTreeNode parent)
+     */
     protected ProgNode(int code, ParseTreeNode parent) {
         super(code, parent);
+    }
+    
+    @Override
+    public void buildTree(Tokenizer lexer) {
+        ParseTreeNode nextNode;
+
+        try {
+            populateChildren(lexer.getToken());
+            nextNode = getNextInTree();
+            if(nextNode != null) {
+                nextNode.buildTree(lexer);
+            }
+        } catch(BufferOverflowException | IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    @Override
+    public ControlTag execute() {
+        ControlTag tag;
+        StmtListNode stmtList = (StmtListNode) getChildAt(0);
+        
+        tag = stmtList.execute();
+        
+        return tag;
     }
     
 /**
  * Add child nodes based on the current token and the grammar's rules.
  * @param   token   the current token
  */
+    @Override
     public void populateChildren(TokenPair token) {
         int tokenNum = token.getTokenNum();
         
@@ -44,7 +80,7 @@ public class ProgNode extends ParseTreeNode {
     
 /**
  * Add child nodes based on rule 0 in the grammar:
- * "0.    prog : stmt-list PERIOD"
+ * "0. prog : stmt-list PERIOD"
  * @param   token   the current token
  */
     private void doRule0(TokenPair token) {

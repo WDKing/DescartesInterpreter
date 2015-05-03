@@ -11,9 +11,9 @@ package descarteinterpreter;
  * Representation of a token in the language Descartes-2.
  */
 public class TokenPair {    
-    /** The text of the token as found in the file being parsed. */
+    /** The text of the token as found in the file being parsed */
     private final String tokenStr;
-    /** The numeric code for the token. */
+    /** The numeric code for the token */
     private final int tokenNum;
 
     /**

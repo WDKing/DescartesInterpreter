@@ -8,14 +8,14 @@
 package descarteinterpreter;
 
 /**
- * Representation of a "prog" node in a parse tree for Descartes-2
+ * Representation of a "stmt-list" node (#31) in a parse tree for Descartes-2
  */
-public class StmtListNode extends ParseTreeNode {
+public class StmtListNode extends ExecTypeNode {
     
-    public StmtListNode(int code) {
-        super(code);
-    }
-    
+    /**
+     * @see descarteinterpreter.ParseTreeNode#Constructor(int code,
+     * ParseTreeNode parent)
+     */
     protected StmtListNode(int code, ParseTreeNode parent) {
         super(code, parent);
     }
@@ -24,6 +24,7 @@ public class StmtListNode extends ParseTreeNode {
  * Add child nodes based on the current token and the grammar's rules.
  * @param   token   the current token
  */
+    @Override
     public void populateChildren(TokenPair token) {
         int tokenNum = token.getTokenNum();
         
@@ -47,11 +48,11 @@ public class StmtListNode extends ParseTreeNode {
     
 /**
  * Add child nodes based on rule 1 in the grammar:
- * "1.    stmt-list : stmt stmt-tail"
+ * "1. stmt-list : stmt stmt-tail"
  * @param   token   the current token
  */
     private void doRule1(TokenPair token) {
-        addChild(31);
+        addChild(32);
         addChild(33);
     }
 }

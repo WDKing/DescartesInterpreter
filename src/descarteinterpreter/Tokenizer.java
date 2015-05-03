@@ -40,75 +40,37 @@
 
 package descarteinterpreter;
 
-import java.io.PushbackReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PushbackReader;
 
 import java.nio.BufferOverflowException;
 import java.nio.charset.Charset;
 
-import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
  * Tokenizer class for Descartes-2 Interpreter.
  */
 public class Tokenizer {
-    /** indicates that the period waiting in the stream is garbage */
+    /** Indicates that the period waiting in the stream is garbage */
     private boolean garbageFlag = false;
-    /** the stream being parsed */
+    /** The stream being parsed */
     private final PushbackReader fileIn;
-    /** for building up the text of the token */
+    /** For building up the text of the token */
     private final StringBuilder tempChars = new StringBuilder(1024);
     
-    /** stores the tokens found so far */
+    /** Stores the tokens found so far */
     private static final List<TokenPair> tokenList = new ArrayList<>(256);
-    /** non-alphanumeric characters that can start a token */
+    /** Non-alphanumeric characters that can start a token */
     private static final char[] SPECIAL_STARTS =
             {'(', ')', '<', '>', '/', '*', '-', '+', '=', ';', ':', '.', ','};
-    /** the reserved words and their numeric codes */
+    /** The reserved words and their numeric codes */
     private static final Map<String, Integer> RESERVED_WORDS = new HashMap<>(11);
-    
-    /**
-     * Main method just for testing the class.
-     * @param   args    not used
-     */
-    public static void main(String[] args) {
-        TokenPair nextToken;
-        Tokenizer testTokenizer;
-        
-        System.out.println("\nDisplaying the list of tokens: \n");
-
-        try
-        {
-            testTokenizer = new Tokenizer(new FileInputStream("testprog.dat"));
-            
-            while((nextToken = testTokenizer.getToken()) != null)
-            {
-                System.out.println(nextToken);
-            }
-
-            System.out.println("\nThere were " + testTokenizer.countGarbage()
-                + " occurrences of garbage in the file.");
-            
-            testTokenizer.close();
-        }
-        catch(FileNotFoundException e1) {
-            System.out.println("\nError: File not found.");
-            System.out.println(e1.getMessage());
-        } catch(BufferOverflowException e2) {
-            System.out.println("\nError: Buffer has overflowed.");
-            System.out.println(e2.getMessage());
-        } catch(IOException e3) {
-            System.out.println("\nError: Unspecified IOException.");
-            System.out.println(e3.getMessage());
-        }
-    }
     
     /**
      * Sole constructor.
@@ -205,6 +167,10 @@ public class Tokenizer {
         }
         
         return result;
+    }
+    
+    public TokenPair getCurrToken() {
+        return tokenList.get(tokenList.size() - 1);
     }
     
     /**
