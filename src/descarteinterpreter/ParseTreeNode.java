@@ -7,9 +7,10 @@
 
 package descarteinterpreter;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.HashMap;
 
 /**
  * Parent class for the nodes in ParseTree, for Descartes-2 Interpreter;
@@ -17,23 +18,17 @@ import java.util.HashMap;
 public abstract class ParseTreeNode implements Iterable<ParseTreeNode> {
     /** The numeric code for element of the grammar the node represents */
     protected final int code;
+    /** The line number to which this node corresponds, or -1 if unknown */
+    protected final int lineNum;
     /** The parent node of this node */
     protected final ParseTreeNode parent;
     /** A list of the child nodes of this node */
     protected final List<ParseTreeNode> children =  new LinkedList<>();
     /** The symbol table for this program */
-    protected static HashMap<String, Double> symbolTable = new HashMap<>();
-    
-    /**
-     * Sole public constructor.
-     * Constructs a root node (that has no parent).
-     * @param code          the numeric code for element of the grammar the new
-     *                      node represents
-     */
-    public ParseTreeNode(int code) {
-        this.code = code;
-        this.parent = null;
-    }
+    protected static final HashMap<String, Double> symbolTable =
+            new HashMap<>();
+    /** The data that can be read in by this program */
+    protected static final List<DescartesToken> inputData = new ArrayList<>(256);
     
     /**
      * Protected constructor. Initializes the parent field, but does not add the
@@ -42,9 +37,10 @@ public abstract class ParseTreeNode implements Iterable<ParseTreeNode> {
      *                      node represents
      * @param parent        the parent node for the new node
      */
-    protected ParseTreeNode(int code, ParseTreeNode parent) {
+    protected ParseTreeNode(int code, ParseTreeNode parent, int lineNum) {
         this.code = code;
         this.parent = parent;
+        this.lineNum = lineNum;
     }
     
     /**
@@ -52,86 +48,86 @@ public abstract class ParseTreeNode implements Iterable<ParseTreeNode> {
      * @param code          the numeric code for element of the grammar the new
      *                      node represents
      */
-    public void addChild(int code) {
+    public void addChild(int code, int newLineNum) {
         ParseTreeNode newNode = null;
         
         if((code >= 0 && code <= 29)) {
         // Check for terminal symbols
-            newNode = new TerminalNode(code, this);
+            newNode = new TerminalNode(code, this, newLineNum);
         } else {
             // case statements commented out until class is created
             switch(code) {
                 case 31:    // stmt-list
-                            newNode = new StmtListNode(code, this);
+                            newNode = new StmtListNode(code, this, newLineNum);
                             break;
                 case 32:    // stmt
-                            newNode = new StmtNode(code, this);
+                            newNode = new StmtNode(code, this, newLineNum);
                             break;
                 case 33:    // stmt-tail
-                            newNode = new StmtTailNode(code, this);
+                            newNode = new StmtTailNode(code, this, newLineNum);
                             break;
                 case 34:    // if-stmt
-                            newNode = new IfStmtNode(code, this);
+                            newNode = new IfStmtNode(code, this, newLineNum);
                             break;
                 case 35:    // loop-stmt
-                            newNode = new LoopStmtNode(code, this);
+                            newNode = new LoopStmtNode(code, this, newLineNum);
                             break;
                 case 36:    // break-stmt
-                            newNode = new BreakStmtNode(code, this);
+                            newNode = new BreakStmtNode(code, this, newLineNum);
                             break;
                 case 37:    // assign-stmt
-                            newNode = new AssignStmtNode(code, this);
+                            newNode = new AssignStmtNode(code, this, newLineNum);
                             break;
                 case 38:    // read-stmt
-                            newNode = new ReadStmtNode(code, this);
+                            newNode = new ReadStmtNode(code, this, newLineNum);
                             break;
                 case 39:    // print-stmt
-                            newNode = new PrintStmtNode(code, this);
+                            newNode = new PrintStmtNode(code, this, newLineNum);
                             break;
                 case 40:    // expr
-                            newNode = new ExprNode(code, this);
+                            newNode = new ExprNode(code, this, newLineNum);
                             break;
                 case 41:    // else-part
-                            newNode = new ElsePartNode(code, this);
+                            newNode = new ElsePartNode(code, this, newLineNum);
                             break;
                 case 42:    // id-option
-                            newNode = new IdOptionNode(code, this);
+                            newNode = new IdOptionNode(code, this, newLineNum);
                             break;
                 case 43:    // id-list-tail
-                            newNode = new IdListTailNode(code, this);
+                            newNode = new IdListTailNode(code, this, newLineNum);
                             break;
                 case 44:    // bool-term
-                            newNode = new BoolTermNode(code, this);
+                            newNode = new BoolTermNode(code, this, newLineNum);
                             break;
                 case 45:    // bool-term-tail
-                            newNode = new BoolTermTailNode(code, this);
+                            newNode = new BoolTermTailNode(code, this, newLineNum);
                             break;
                 case 46:    // bool-factor
-                            newNode = new BoolFacNode(code, this);
+                            newNode = new BoolFacNode(code, this, newLineNum);
                             break;
                 case 47:    // bool-factor-tail
-                            newNode = new BoolFacTailNode(code, this);
+                            newNode = new BoolFacTailNode(code, this, newLineNum);
                             break;
                 case 48:    // arith-expr
-                            newNode = new ArithExprNode(code, this);
+                            newNode = new ArithExprNode(code, this, newLineNum);
                             break;
                 case 49:    // relation-option
-                            newNode = new RelOptNode(code, this);
+                            newNode = new RelOptNode(code, this, newLineNum);
                             break;
                 case 50:    // term
-                            newNode = new TermNode(code, this);
+                            newNode = new TermNode(code, this, newLineNum);
                             break;
                 case 51:    // term-tail
-                            newNode = new TermTailNode(code, this);
+                            newNode = new TermTailNode(code, this, newLineNum);
                             break;
                 case 52:    // factor
-                            newNode = new FactorNode(code, this);
+                            newNode = new FactorNode(code, this, newLineNum);
                             break;
                 case 53:    // factor-tail
-                            newNode = new FactorTailNode(code, this);
+                            newNode = new FactorTailNode(code, this, newLineNum);
                             break;
                 case 54:    // atom
-                            newNode = new AtomNode(code, this);
+                            newNode = new AtomNode(code, this, newLineNum);
                             break;
                 default:    throw new IllegalArgumentException();
             }
@@ -202,6 +198,13 @@ public abstract class ParseTreeNode implements Iterable<ParseTreeNode> {
         }
         
         return result;
+    }
+    
+    /**
+     * @return the line in the program corresponding to this node
+     */
+    public int getLineNum() {
+        return lineNum;
     }
     
     /**
@@ -280,6 +283,10 @@ public abstract class ParseTreeNode implements Iterable<ParseTreeNode> {
         return this.parent;
     }
     
+    public HashMap<String, Double> getSymbolTable() {
+        return (HashMap<String, Double>) symbolTable.clone();
+    }
+    
     /**
      * @return      true if this node has any children, otherwise false
      */
@@ -311,12 +318,10 @@ public abstract class ParseTreeNode implements Iterable<ParseTreeNode> {
     }
     
     /**
-     * Empty method to add child nodes. Should be overridden.
+     * Add child nodes based on the current token and the grammar's rules.
      * @param   token   the current token
      */
-    public void populateChildren(TokenPair token) {
-        
-    }
+    public abstract void populateChildren(DescartesToken token);
     
     /**
      * @return      an iterator for the tree descending from this node

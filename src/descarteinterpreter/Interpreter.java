@@ -11,6 +11,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Scanner;
+import java.util.Set;
 
 /**
  * Main class for building and interpreting a parse tree from code written in
@@ -18,32 +19,45 @@ import java.util.Scanner;
  */
 public class Interpreter
 {   
+    private static String theFileName;
+    
     public static void main(String args[])
     {
         Tokenizer lexer;
-        ParseTreeNode progTree = new ProgNode(30);
+        ProgNode progTree = new ProgNode();
         ParseTreeIterator ptIter;
         InputStream fileIn;
+        ControlTag tag;
         
-        System.out.println("DESCARTES-2 INTERPRETER \n");
+        System.out.println("DESCARTES-2 INTERPRETER");
         
         fileIn = getFileFromUser();
-        if(fileIn != null) {        
+        if(fileIn != null) {
+            System.out.println("\nParsing file " + theFileName + " ...");
             lexer = new Tokenizer(fileIn);
             progTree.buildTree(lexer);
-            ptIter = progTree.iterator();
+            System.out.println("Executing file " + theFileName + " ...");
+            System.out.println("\n********************");
+            tag = progTree.execute();
+            System.out.println("********************");
             
-            while(ptIter.hasNext()) {
-                ParseTreeNode currNode = ptIter.next();
-                if(currNode.isTerminal()) {
-                    System.out.println(((TerminalNode) currNode).getTokenStr());
-                } else {
-                    System.out.print(currNode.getCode() + " ");
-                }
+            if(tag.isBreak() || tag.isError()) {
+                System.out.println("\nError in program.");
+                System.out.println("Execution halted at line "
+                        + tag.getLineNum());
+            } else {
+                System.out.println("\nExecution completed successfully.");
+            }
+            
+            System.out.println("\nFinal symbol table:");
+            Set<String> keys = progTree.getSymbolTable().keySet();
+            for(String k : keys) {
+                System.out.printf("%-16s %.2f", "\n" + k + ": ",
+                        progTree.getSymbolTable().get(k));
             }
         }
         
-        System.out.println("\nQuitting program.");
+        System.out.println("\n\nQuitting program.");
     }
     
     private static InputStream getFileFromUser() {
@@ -62,10 +76,10 @@ public class Interpreter
             if(!fileName.toUpperCase().equals("Q")){
                 if(fileName.equals("")) {
                     fileName = "testprog.dat";
-                    System.out.println("Using testprog.dat.");
                 }
                 try {
                     codeFile = new FileInputStream(fileName);
+                    theFileName = fileName;
                     needFile = false;
                 } catch (FileNotFoundException e) {
                     System.out.println("File not found: " + fileName + ".");

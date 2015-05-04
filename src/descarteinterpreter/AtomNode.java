@@ -14,10 +14,10 @@ public class AtomNode extends EvalTypeNode {
     
     /**
      * @see descarteinterpreter.ParseTreeNode#Constructor(int code,
-     * ParseTreeNode parent)
+     * ParseTreeNode parent, int lineNum)
      */
-    protected AtomNode(int code, ParseTreeNode parent) {
-        super(code, parent);
+    protected AtomNode(int code, ParseTreeNode parent, int lineNum) {
+        super(code, parent, lineNum);
     }
     
     @Override
@@ -43,7 +43,7 @@ public class AtomNode extends EvalTypeNode {
      * @param   token   the current token
      */
     @Override
-    public void populateChildren(TokenPair token) {
+    public void populateChildren(DescartesToken token) {
         int tokenNum = token.getTokenNum();
         
         switch(tokenNum) {
@@ -64,8 +64,8 @@ public class AtomNode extends EvalTypeNode {
      * "48. atom : ID"
      * @param   token   the current token
      */
-    private void doRule48(TokenPair token) {
-        addChild(7);
+    private void doRule48(DescartesToken token) {
+        addChild(7, token.getLineNum());
     }
 
     /**
@@ -73,7 +73,7 @@ public class AtomNode extends EvalTypeNode {
      * "49. atom : CONST"
      * @param   token   the current token
      */
-    private void doRule49(TokenPair token) {
-        addChild(29);
+    private void doRule49(DescartesToken token) {
+        addChild(29, token.getLineNum());
     }
 }

@@ -14,10 +14,10 @@ public class ElsePartNode extends ExecTypeNode {
 
     /**
      * @see descarteinterpreter.ParseTreeNode#Constructor(int code,
-     * ParseTreeNode parent)
+     * ParseTreeNode parent, int lineNum)
      */
-    protected ElsePartNode(int code, ParseTreeNode parent) {
-            super(code, parent);
+    protected ElsePartNode(int code, ParseTreeNode parent, int lineNum) {
+            super(code, parent, lineNum);
     }
     
     @Override
@@ -41,7 +41,7 @@ public class ElsePartNode extends ExecTypeNode {
      * @param token the current token
      */
     @Override
-    public void populateChildren(TokenPair token) {
+    public void populateChildren(DescartesToken token) {
         int tokenNum = token.getTokenNum();
 
         switch (tokenNum) {
@@ -61,17 +61,17 @@ public class ElsePartNode extends ExecTypeNode {
      * "12. else-part : ELSE stmt-lit FI"
      * @param token the current token
      */
-    private void doRule12(TokenPair token) {
-            this.addChild(4);
-            this.addChild(31);
-            this.addChild(5);
+    private void doRule12(DescartesToken token) {
+            this.addChild(4, token.getLineNum());
+            this.addChild(31, token.getLineNum());
+            this.addChild(5, token.getLineNum());
     }
     /**
      * Add child nodes based on rule 13 in the grammar:
      * "13. else-part : FI"
      * @param token the current token
      */
-    private void doRule13(TokenPair token) {
-        this.addChild(5);
+    private void doRule13(DescartesToken token) {
+        this.addChild(5, token.getLineNum());
     }
 }

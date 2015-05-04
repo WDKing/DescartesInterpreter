@@ -14,10 +14,10 @@ public class BoolFacNode extends EvalTypeNode {
 
     /**
      * @see descarteinterpreter.ParseTreeNode#Constructor(int code,
-     * ParseTreeNode parent)
+     * ParseTreeNode parent, int lineNum)
      */
-    protected BoolFacNode(int code, ParseTreeNode parent) {
-        super(code, parent);
+    protected BoolFacNode(int code, ParseTreeNode parent, int lineNum) {
+        super(code, parent, lineNum);
     }
     
     @Override
@@ -84,7 +84,7 @@ public class BoolFacNode extends EvalTypeNode {
      * @param   token   the current token
      */
     @Override
-    public void populateChildren(TokenPair token) {
+    public void populateChildren(DescartesToken token) {
         int tokenNum = token.getTokenNum();
         
         switch(tokenNum) {
@@ -105,8 +105,8 @@ public class BoolFacNode extends EvalTypeNode {
      * "29. bool-factor : arith-expr relation-option"
      * @param   token   the current token
      */
-    private void doRule29(TokenPair token) {
-        addChild(48);
-        addChild(49);
+    private void doRule29(DescartesToken token) {
+        addChild(48, token.getLineNum());
+        addChild(49, token.getLineNum());
     }
 }

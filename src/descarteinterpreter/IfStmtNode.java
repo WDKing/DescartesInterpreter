@@ -14,10 +14,26 @@ public class IfStmtNode extends ExecTypeNode {
 
     /**
      * @see descarteinterpreter.ParseTreeNode#Constructor(int code,
-     * ParseTreeNode parent)
+     * ParseTreeNode parent, lineNum)
      */
-    protected IfStmtNode(int code, ParseTreeNode parent) {
-        super(code, parent);
+    protected IfStmtNode(int code, ParseTreeNode parent, int lineNum) {
+        super(code, parent, lineNum);
+    }
+    
+    @Override
+    public ControlTag execute() {
+        ControlTag tag;
+        ExprNode conditional = (ExprNode) getChildAt(1);
+        StmtListNode stmtList = (StmtListNode) getChildAt(3);
+        ElsePartNode elsePart = (ElsePartNode) getChildAt(4);
+        
+        if(conditional.evaluate() != 0) {
+            tag = stmtList.execute();
+        } else {
+            tag = elsePart.execute();
+        }
+        
+        return tag;
     }
 
     /**
@@ -26,7 +42,7 @@ public class IfStmtNode extends ExecTypeNode {
      * @param token the current token
      */
     @Override
-    public void populateChildren(TokenPair token) {
+    public void populateChildren(DescartesToken token) {
         int tokenNum = token.getTokenNum();
 
         switch (tokenNum) {
@@ -43,11 +59,11 @@ public class IfStmtNode extends ExecTypeNode {
      * "11. if-stmt : IF expr THEN stmt-list else-part"
      * @param   token   the current token
      */
-    private void doRule11(TokenPair token) {
-        this.addChild(2);
-        this.addChild(40);
-        this.addChild(3);
-        this.addChild(31);
-        this.addChild(41);
+    private void doRule11(DescartesToken token) {
+        this.addChild(2, token.getLineNum());
+        this.addChild(40, token.getLineNum());
+        this.addChild(3, token.getLineNum());
+        this.addChild(31, token.getLineNum());
+        this.addChild(41, token.getLineNum());
     }
 }

@@ -14,10 +14,10 @@ public class FactorTailNode extends EvalTypeNode {
 
     /**
      * @see descarteinterpreter.ParseTreeNode#Constructor(int code,
-     * ParseTreeNode parent)
+     * ParseTreeNode parent, int lineNum)
      */
-    protected FactorTailNode(int code, ParseTreeNode parent) {
-        super(code, parent);
+    protected FactorTailNode(int code, ParseTreeNode parent, int lineNum) {
+        super(code, parent, lineNum);
     }
     
     @Override
@@ -50,7 +50,7 @@ public class FactorTailNode extends EvalTypeNode {
      * @param   token   the current token
      */
     @Override
-    public void populateChildren(TokenPair token) {
+    public void populateChildren(DescartesToken token) {
         int tokenNum = token.getTokenNum();
         
         switch(tokenNum) {
@@ -88,10 +88,10 @@ public class FactorTailNode extends EvalTypeNode {
      * "42. factor-tail : * factor factor-tail"
      * @param   token   the current token
      */
-    private void doRule42(TokenPair token) {
-        addChild(25);
-        addChild(52);
-        addChild(53);
+    private void doRule42(DescartesToken token) {
+        addChild(25, token.getLineNum());
+        addChild(52, token.getLineNum());
+        addChild(53, token.getLineNum());
     }
 
     /**
@@ -99,10 +99,10 @@ public class FactorTailNode extends EvalTypeNode {
      * "43. factor-tail : / factor factor-tail"
      * @param   token   the current token
      */
-    private void doRule43(TokenPair token) {
-        addChild(26);
-        addChild(52);
-        addChild(53);
+    private void doRule43(DescartesToken token) {
+        addChild(26, token.getLineNum());
+        addChild(52, token.getLineNum());
+        addChild(53, token.getLineNum());
     }
 
     /**
@@ -110,7 +110,7 @@ public class FactorTailNode extends EvalTypeNode {
      * "44. factor-tail :"
      * @param   token   the current token
      */
-    private void doRule44(TokenPair token) {
+    private void doRule44(DescartesToken token) {
         // Intentionally Left Blank
     }
 }

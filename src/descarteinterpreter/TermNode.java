@@ -14,10 +14,10 @@ public class TermNode extends EvalTypeNode {
 
     /**
      * @see descarteinterpreter.ParseTreeNode#Constructor(int code,
-     * ParseTreeNode parent)
+     * ParseTreeNode parent, int lineNum)
      */
-    protected TermNode(int code, ParseTreeNode parent) {
-        super(code, parent);
+    protected TermNode(int code, ParseTreeNode parent, int lineNum) {
+        super(code, parent, lineNum);
     }
     
     @Override
@@ -39,7 +39,7 @@ public class TermNode extends EvalTypeNode {
      * @param   token   the current token
      */
     @Override
-    public void populateChildren(TokenPair token) {
+    public void populateChildren(DescartesToken token) {
         int tokenNum = token.getTokenNum();
         
         switch(tokenNum) {
@@ -58,8 +58,8 @@ public class TermNode extends EvalTypeNode {
      * "41. term : factor factor-tail"
      * @param   token   the current token
      */
-    private void doRule41(TokenPair token) {
-        addChild(52);
-        addChild(53);
+    private void doRule41(DescartesToken token) {
+        addChild(52, token.getLineNum());
+        addChild(53, token.getLineNum());
     }
 }

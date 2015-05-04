@@ -14,10 +14,10 @@ public class ArithExprNode extends EvalTypeNode {
         
     /**
      * @see descarteinterpreter.ParseTreeNode#Constructor(int code,
-     * ParseTreeNode parent)
+     * ParseTreeNode parent, int lineNum)
      */
-    protected ArithExprNode(int code, ParseTreeNode parent) {
-        super(code, parent);
+    protected ArithExprNode(int code, ParseTreeNode parent, int lineNum) {
+        super(code, parent, lineNum);
     }
     
     @Override
@@ -39,7 +39,7 @@ public class ArithExprNode extends EvalTypeNode {
      * @param   token   the current token
      */
     @Override
-    public void populateChildren(TokenPair token) {
+    public void populateChildren(DescartesToken token) {
         int tokenNum = token.getTokenNum();
         
         switch(tokenNum) {
@@ -60,8 +60,8 @@ public class ArithExprNode extends EvalTypeNode {
      * "37. arith-expr : term term-tail"
      * @param   token   the current token
      */
-    private void doRule37(TokenPair token) {
-        addChild(50);
-        addChild(51);
+    private void doRule37(DescartesToken token) {
+        addChild(50, token.getLineNum());
+        addChild(51, token.getLineNum());
     }
 }

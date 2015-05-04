@@ -14,10 +14,10 @@ public class IdOptionNode extends ParseTreeNode {
 
     /**
      * @see descarteinterpreter.ParseTreeNode#Constructor(int code,
-     * ParseTreeNode parent)
+     * ParseTreeNode parent, int lineNum)
      */
-    protected IdOptionNode(int code, ParseTreeNode parent) {
-        super(code, parent);
+    protected IdOptionNode(int code, ParseTreeNode parent, int lineNum) {
+        super(code, parent, lineNum);
     }
 
     /**
@@ -25,7 +25,7 @@ public class IdOptionNode extends ParseTreeNode {
      * @param token the current token
      */
     @Override
-    public void populateChildren(TokenPair token) {
+    public void populateChildren(DescartesToken token) {
         int tokenNum = token.getTokenNum();
 
         switch (tokenNum) {
@@ -48,8 +48,8 @@ public class IdOptionNode extends ParseTreeNode {
      * "16. id-option : ID"
      * @param token the current token
      */
-    private void doRule16(TokenPair token) {
-        this.addChild(7);
+    private void doRule16(DescartesToken token) {
+        this.addChild(7, token.getLineNum());
     }
 
     /**
@@ -57,7 +57,7 @@ public class IdOptionNode extends ParseTreeNode {
      * 17. "id-option : "
      * @param token the current token
      */
-    private void doRule17(TokenPair token) {
+    private void doRule17(DescartesToken token) {
         //DO NOTHING
     }
 }

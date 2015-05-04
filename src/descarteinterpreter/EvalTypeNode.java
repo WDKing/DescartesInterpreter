@@ -14,10 +14,10 @@ public abstract class EvalTypeNode extends ParseTreeNode {
     
     /**
      * @see descarteinterpreter.ParseTreeNode#Constructor(int code,
-     * ParseTreeNode parent)
+     * ParseTreeNode parent, int lineNum)
      */
-    protected EvalTypeNode(int code, ParseTreeNode parent) {
-        super(code, parent);
+    protected EvalTypeNode(int code, ParseTreeNode parent, int lineNum) {
+        super(code, parent, lineNum);
     }
     
     /**

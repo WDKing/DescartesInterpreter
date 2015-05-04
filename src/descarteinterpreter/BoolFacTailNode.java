@@ -15,10 +15,31 @@ public class BoolFacTailNode extends EvalTypeNode {
     
     /**
      * @see descarteinterpreter.ParseTreeNode#Constructor(int code,
-     * ParseTreeNode parent)
+     * ParseTreeNode parent, int lineNum)
      */
-    protected BoolFacTailNode(int code, ParseTreeNode parent) {
-        super(code, parent);
+    protected BoolFacTailNode(int code, ParseTreeNode parent, int lineNum) {
+        super(code, parent, lineNum);
+    }
+    
+    @Override
+    public double evaluate() {
+        double result;
+        BoolFacNode bFac;
+        BoolFacTailNode bFacTail;
+        
+        if(hasChildren()) {
+            bFac = (BoolFacNode) getChildAt(1);
+            bFacTail = (BoolFacTailNode) getChildAt(2);
+            if(bFac.evaluate() == 0 || bFacTail.evaluate() == 0) {
+                result = 0;
+            } else {
+                result = 1;
+            }
+        } else {
+            result = 1;
+        }
+        
+        return result;
     }
     
     /**
@@ -26,7 +47,7 @@ public class BoolFacTailNode extends EvalTypeNode {
      * @param   token   the current token
      */
     @Override
-    public void populateChildren(TokenPair token) {
+    public void populateChildren(DescartesToken token) {
         int tokenNum = token.getTokenNum();
         
         switch(tokenNum) {
@@ -54,10 +75,10 @@ public class BoolFacTailNode extends EvalTypeNode {
      * "27. bool-factor-tail : AND bool-factor bool-factor-tail"
      * @param   token   the current token
      */
-    private void doRule27(TokenPair token) {
-        addChild(16);
-        addChild(46);
-        addChild(47);
+    private void doRule27(DescartesToken token) {
+        addChild(16, token.getLineNum());
+        addChild(46, token.getLineNum());
+        addChild(47, token.getLineNum());
     }
     
     /**
@@ -65,7 +86,7 @@ public class BoolFacTailNode extends EvalTypeNode {
      * "28.   bool-factor-tail : "
      * @param   token   the current token
      */
-    private void doRule28(TokenPair token) {
+    private void doRule28(DescartesToken token) {
         // Intentionally Left Blank
     }
 }
