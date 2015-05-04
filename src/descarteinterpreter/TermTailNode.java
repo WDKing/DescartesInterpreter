@@ -19,7 +19,8 @@ public class TermTailNode extends EvalTypeNode {
     protected TermTailNode(int code, ParseTreeNode parent) {
         super(code, parent);
     }
-    
+   
+	
     @Override
     public double evaluate() {
         double result;

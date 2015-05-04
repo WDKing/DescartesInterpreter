@@ -1,0 +1,23 @@
+Hey guys So i just wanted to outline my plans for the next two days:
+
+For tonight, I think that I am going to write a series of input files to run against the program. These file's primary purpose will be to test the evaluation methods for the various different non-terminal methods. I will be testing the evauation methods in this manner because there doesn't seem to be an intuitive way to test them with unit testing, testing them would require extensive mocking. The files will test the evaluation methods by writing input files that perform different operations and print's out their results.
+
+I have written a Unit test for the prog method, I plan to use this test as a template when designing my other method. The unit test's purpose, as it stands now is to test the populate children and do rule methods for each of the non-terminals 30-42. These unit tests will only check the imediate children and will not run populate children on any of the children nodes as this recursive funcitonality isn't within the purview of these classes and will be tested when i run the input files I am writing. While I plan on using this test as a template for my other 12, it isn't set in stone and if someone thinks some other functionality should be added I will be happy do discuss it with them. I will this file with this document so you can see it.
+
+I would like to have all of this done by tomorrow night but obviously if it cant be done by then we will just have to work tuesday:(
+
+Lets hope it is done by tomorrow :)
+
+I plan on:
+
+Writing the input files tonight
+
+Unit tests tomorrow
+
+and more input files once the unit tests are finished.
+
+I may alter the comparison method if it is required to test the updated classes.
+
+If there is other functionality that is more important that needs to be done, let me know and i will try to help with that.
+
+Have a good night.
