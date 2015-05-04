@@ -13,23 +13,23 @@ package descarteinterpreter;
 public abstract class ExecTypeNode extends ParseTreeNode {
     
     /**
-     * @see descarteinterpreter.ParseTreeNode#Constructor(int code)
+     * @see descarteinterpreter.ParseTreeNode#Constructor(int code, int lineNum)
      */
-    public ExecTypeNode(int code) {
-        super(code);
+    protected ExecTypeNode(int code, int lineNum) {
+        super(code, null, lineNum);
     }
     
     /**
      * @see descarteinterpreter.ParseTreeNode#Constructor(int code,
-     * ParseTreeNode parent)
+     * ParseTreeNode parent, int lineNum)
      */
-    protected ExecTypeNode(int code, ParseTreeNode parent) {
-        super(code, parent);
+    protected ExecTypeNode(int code, ParseTreeNode parent, int lineNum) {
+        super(code, parent, lineNum);
     }
     
     /**
      * Executes the tree descending from this node.
-     * @return an object with control information such as a break
+     * @return an object with control information such as breaks or errors.
      */
     public abstract ControlTag execute();
 }

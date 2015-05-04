@@ -15,10 +15,10 @@ public class RelOptNode extends ParseTreeNode {
     
     /**
      * @see descarteinterpreter.ParseTreeNode#Constructor(int code,
-     * ParseTreeNode parent)
+     * ParseTreeNode parent, int lineNum)
      */
-    protected RelOptNode(int code, ParseTreeNode parent) {
-        super(code, parent);
+    protected RelOptNode(int code, ParseTreeNode parent, int lineNum) {
+        super(code, parent, lineNum);
     }
     
     /**
@@ -26,7 +26,7 @@ public class RelOptNode extends ParseTreeNode {
      * @param   token   the current token
      */
     @Override
-    public void populateChildren(TokenPair token) {
+    public void populateChildren(DescartesToken token) {
         int tokenNum = token.getTokenNum();
         
         switch(tokenNum) {
@@ -68,9 +68,9 @@ public class RelOptNode extends ParseTreeNode {
      * "30. relation-option : < arith-expr"
      * @param   token   the current token
      */
-    private void doRule30(TokenPair token) {
-        addChild(17);
-        addChild(48);
+    private void doRule30(DescartesToken token) {
+        addChild(17, token.getLineNum());
+        addChild(48, token.getLineNum());
     }
 
     /**
@@ -78,9 +78,9 @@ public class RelOptNode extends ParseTreeNode {
      * "31. relation-option : <= arith-expr"
      * @param   token   the current token
      */
-    private void doRule31(TokenPair token) {
-        addChild(18);
-        addChild(48);
+    private void doRule31(DescartesToken token) {
+        addChild(18, token.getLineNum());
+        addChild(48, token.getLineNum());
     }
 
     /**
@@ -88,9 +88,9 @@ public class RelOptNode extends ParseTreeNode {
      * "32. relation-option : = arith-expr"
      * @param   token   the current token
      */
-    private void doRule32(TokenPair token) {
-        addChild(19);
-        addChild(48);
+    private void doRule32(DescartesToken token) {
+        addChild(19, token.getLineNum());
+        addChild(48, token.getLineNum());
     }
 
     /**
@@ -98,9 +98,9 @@ public class RelOptNode extends ParseTreeNode {
      * "33. relation-option : >= arith-expr"
      * @param   token   the current token
      */
-    private void doRule33(TokenPair token) {
-        addChild(20);
-        addChild(48);
+    private void doRule33(DescartesToken token) {
+        addChild(20, token.getLineNum());
+        addChild(48, token.getLineNum());
     }
 
     /**
@@ -108,9 +108,9 @@ public class RelOptNode extends ParseTreeNode {
      * "34. relation-option : > arith-expr"
      * @param   token   the current token
      */
-    private void doRule34(TokenPair token) {
-        addChild(21);
-        addChild(48);
+    private void doRule34(DescartesToken token) {
+        addChild(21, token.getLineNum());
+        addChild(48, token.getLineNum());
     }
 
     /**
@@ -118,9 +118,9 @@ public class RelOptNode extends ParseTreeNode {
      * "35. relation-option : <> arith-expr"
      * @param   token   the current token
      */
-    private void doRule35(TokenPair token) {
-        addChild(22);
-        addChild(48);
+    private void doRule35(DescartesToken token) {
+        addChild(22, token.getLineNum());
+        addChild(48, token.getLineNum());
     }
 
     /**
@@ -128,7 +128,7 @@ public class RelOptNode extends ParseTreeNode {
      * "36. relation-option :"
      * @param   token   the current token
      */
-    private void doRule36(TokenPair token) {
+    private void doRule36(DescartesToken token) {
         // Intentionally Left Blank
     }
 }

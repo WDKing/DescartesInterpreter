@@ -14,10 +14,25 @@ public class StmtNode extends ExecTypeNode {
 
     /**
      * @see descarteinterpreter.ParseTreeNode#Constructor(int code,
-     * ParseTreeNode parent)
+     * ParseTreeNode parent, int lineNum)
      */
-    protected StmtNode(int code, ParseTreeNode parent) {
-            super(code, parent);
+    protected StmtNode(int code, ParseTreeNode parent, int lineNum) {
+            super(code, parent, lineNum);
+    }
+    
+    @Override
+    public ControlTag execute() {
+        ControlTag tag;
+        ExecTypeNode node;
+        
+        if(hasChildren()) {
+            node = (ExecTypeNode) getChildAt(0);
+            tag = node.execute();
+        } else {
+            tag = new ControlTag();
+        }
+        
+        return tag;
     }
 
     /**
@@ -25,7 +40,7 @@ public class StmtNode extends ExecTypeNode {
      * @param   token   the current token
      */
     @Override
-    public void populateChildren(TokenPair token) {
+    public void populateChildren(DescartesToken token) {
         int tokenNum = token.getTokenNum();
 
         switch (tokenNum) {
@@ -63,8 +78,8 @@ public class StmtNode extends ExecTypeNode {
      * "4. stmt : if-stmt"
      * @param   token   the current token
      */
-    private void doRule4(TokenPair token) {
-        this.addChild(34);
+    private void doRule4(DescartesToken token) {
+        this.addChild(34, token.getLineNum());
     }
     
     /**
@@ -72,8 +87,8 @@ public class StmtNode extends ExecTypeNode {
      * "5. stmt : loop-stmt"
      * @param   token   the current token
      */
-    private void doRule5(TokenPair token) {
-        this.addChild(35);
+    private void doRule5(DescartesToken token) {
+        this.addChild(35, token.getLineNum());
     }
     
     /**
@@ -81,8 +96,8 @@ public class StmtNode extends ExecTypeNode {
      * "6. stmt : break-stmt"
      * @param   token   the current token
      */
-    private void doRule6(TokenPair token) {
-        this.addChild(36);
+    private void doRule6(DescartesToken token) {
+        this.addChild(36, token.getLineNum());
     }
 
     /**
@@ -90,16 +105,16 @@ public class StmtNode extends ExecTypeNode {
      * "7. stmt : assign-stmt"
      * @param   token   the current token
      */
-    private void doRule7(TokenPair token) {
-        this.addChild(37);
+    private void doRule7(DescartesToken token) {
+        this.addChild(37, token.getLineNum());
     }
     /**
      * Add child nodes based on rule 8 in the grammar: 
      * "8. stmt : read-stmt"
      * @param   token   the current token
      */
-    private void doRule8(TokenPair token) {
-        this.addChild(38);
+    private void doRule8(DescartesToken token) {
+        this.addChild(38, token.getLineNum());
 
     }
     /**
@@ -107,8 +122,8 @@ public class StmtNode extends ExecTypeNode {
      * "9. stmt : print-stmt"
      * @param   token   the current token
      */
-    private void doRule9(TokenPair token) {
-        this.addChild(39);
+    private void doRule9(DescartesToken token) {
+        this.addChild(39, token.getLineNum());
     }
     
     /**
@@ -116,7 +131,7 @@ public class StmtNode extends ExecTypeNode {
      * "10. stmt : "
      * @param   token   the current token
      */
-    private void doRule10(TokenPair token) {
+    private void doRule10(DescartesToken token) {
             //DO NOTHING
     }
 

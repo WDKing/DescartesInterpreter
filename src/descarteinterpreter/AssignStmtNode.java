@@ -13,11 +13,11 @@ package descarteinterpreter;
 public class AssignStmtNode extends ExecTypeNode {
 
     /**
-     * Add child nodes based on the current token and the grammar's rules.
-     * @param   token   the current token
+     * @see descarteinterpreter.ParseTreeNode#Constructor(int code,
+     * ParseTreeNode parent, int lineNum)
      */
-    protected AssignStmtNode(int code, ParseTreeNode parent) {
-            super(code, parent);
+    protected AssignStmtNode(int code, ParseTreeNode parent, int lineNum) {
+        super(code, parent, lineNum);
     }
     
     @Override
@@ -30,13 +30,13 @@ public class AssignStmtNode extends ExecTypeNode {
             
         return tag;
     }
-
+    
     /**
      * Add child nodes based on the current token and the grammar's rules.
-     * @param token the current token
+     * @param   token   the current token
      */
     @Override
-    public void populateChildren(TokenPair token) {
+    public void populateChildren(DescartesToken token) {
             int tokenNum = token.getTokenNum();
 
             switch (tokenNum) {
@@ -53,9 +53,9 @@ public class AssignStmtNode extends ExecTypeNode {
      * "18. assign-stmt : ID BECOMES expr"
      * @param   token   the current token
      */
-    private void doRule18(TokenPair token) {
-            this.addChild(7);
-            this.addChild(11);
-            this.addChild(40);
+    private void doRule18(DescartesToken token) {
+            this.addChild(7, token.getLineNum());
+            this.addChild(11, token.getLineNum());
+            this.addChild(40, token.getLineNum());
     }
 }

@@ -14,10 +14,37 @@ public class LoopStmtNode extends ExecTypeNode {
 
     /**
      * @see descarteinterpreter.ParseTreeNode#Constructor(int code,
-     * ParseTreeNode parent)
+     * ParseTreeNode parent, int lineNum)
      */
-    protected LoopStmtNode(int code, ParseTreeNode parent) {
-        super(code, parent);
+    protected LoopStmtNode(int code, ParseTreeNode parent, int lineNum) {
+        super(code, parent, lineNum);
+    }
+    
+    @Override
+    public ControlTag execute() {
+        ControlTag tag = null;
+        TerminalNode id;
+        StmtListNode stmtList;
+        String label;
+        boolean keepLooping = true;
+        
+        id = (TerminalNode) getChildAt(1);
+        label = id.getTokenStr();
+        stmtList = (StmtListNode) getChildAt(3);
+        
+        while(keepLooping) {
+            tag = stmtList.execute();
+            if(tag.isBreak()) {
+                keepLooping = false; // stop
+                if(tag.getLabel().equals(label) || tag.getLabel().isEmpty()) {
+                    tag = new ControlTag(); // Consume the break
+                } // else keep passing the break up the tree
+            } else if(tag.isError()) {
+                keepLooping = false; // stop and pass the error up the tree
+            }
+        }
+        
+        return tag;
     }
 
     /**
@@ -26,7 +53,7 @@ public class LoopStmtNode extends ExecTypeNode {
      * @param token the current token
      */
     @Override
-    public void populateChildren(TokenPair token) {
+    public void populateChildren(DescartesToken token) {
         int tokenNum = token.getTokenNum();
 
         switch (tokenNum) {
@@ -44,11 +71,11 @@ public class LoopStmtNode extends ExecTypeNode {
      *
      * @param token the current token
      */
-    private void doRule14(TokenPair token) {
-        this.addChild(6);
-        this.addChild(7);
-        this.addChild(8);
-        this.addChild(31);
-        this.addChild(9);
+    private void doRule14(DescartesToken token) {
+        this.addChild(6, token.getLineNum());
+        this.addChild(7, token.getLineNum());
+        this.addChild(8, token.getLineNum());
+        this.addChild(31, token.getLineNum());
+        this.addChild(9, token.getLineNum());
     }
 }

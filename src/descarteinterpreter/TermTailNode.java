@@ -14,10 +14,10 @@ public class TermTailNode extends EvalTypeNode {
 
     /**
      * @see descarteinterpreter.ParseTreeNode#Constructor(int code,
-     * ParseTreeNode parent)
+     * ParseTreeNode parent, int lineNum)
      */
-    protected TermTailNode(int code, ParseTreeNode parent) {
-        super(code, parent);
+    protected TermTailNode(int code, ParseTreeNode parent, int lineNum) {
+        super(code, parent, lineNum);
     }
     
     @Override
@@ -49,7 +49,7 @@ public class TermTailNode extends EvalTypeNode {
      * @param   token   the current token
      */
     @Override
-    public void populateChildren(TokenPair token) {
+    public void populateChildren(DescartesToken token) {
         int tokenNum = token.getTokenNum();
         
         switch(tokenNum) {
@@ -85,10 +85,10 @@ public class TermTailNode extends EvalTypeNode {
      * "38. term-tail : + term term-tail"
      * @param   token   the current token
      */
-    private void doRule38(TokenPair token) {
-        addChild(23);
-        addChild(50);
-        addChild(51);
+    private void doRule38(DescartesToken token) {
+        addChild(23, token.getLineNum());
+        addChild(50, token.getLineNum());
+        addChild(51, token.getLineNum());
     }
 
     /**
@@ -96,10 +96,10 @@ public class TermTailNode extends EvalTypeNode {
      * "39. term-tail : - term term-tail"
      * @param   token   the current token
      */
-    private void doRule39(TokenPair token) {
-        addChild(24);
-        addChild(50);
-        addChild(51);
+    private void doRule39(DescartesToken token) {
+        addChild(24, token.getLineNum());
+        addChild(50, token.getLineNum());
+        addChild(51, token.getLineNum());
     }
 
     /**
@@ -107,7 +107,7 @@ public class TermTailNode extends EvalTypeNode {
      * "40. term-tail : "
      * @param   token   the current token
      */
-    private void doRule40(TokenPair token) {
+    private void doRule40(DescartesToken token) {
         // Intentionally Left Blank
     }
 }

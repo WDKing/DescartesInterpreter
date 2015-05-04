@@ -14,10 +14,27 @@ public class StmtListNode extends ExecTypeNode {
     
     /**
      * @see descarteinterpreter.ParseTreeNode#Constructor(int code,
-     * ParseTreeNode parent)
+     * ParseTreeNode parent, int lineNum)
      */
-    protected StmtListNode(int code, ParseTreeNode parent) {
-        super(code, parent);
+    protected StmtListNode(int code, ParseTreeNode parent, int lineNum) {
+        super(code, parent, lineNum);
+    }
+    
+    @Override
+    public ControlTag execute() {
+        ControlTag tag;
+        StmtNode stmt;
+        StmtTailNode stmtTail;
+        
+        stmt = (StmtNode) getChildAt(0);
+        stmtTail = (StmtTailNode) getChildAt(1);
+        
+        tag = stmt.execute();
+        if(!tag.isBreak() && !tag.isError()) {
+            tag = stmtTail.execute();
+        }
+        
+        return tag;
     }
     
 /**
@@ -25,7 +42,7 @@ public class StmtListNode extends ExecTypeNode {
  * @param   token   the current token
  */
     @Override
-    public void populateChildren(TokenPair token) {
+    public void populateChildren(DescartesToken token) {
         int tokenNum = token.getTokenNum();
         
         switch(tokenNum) {
@@ -51,8 +68,8 @@ public class StmtListNode extends ExecTypeNode {
  * "1. stmt-list : stmt stmt-tail"
  * @param   token   the current token
  */
-    private void doRule1(TokenPair token) {
-        addChild(32);
-        addChild(33);
+    private void doRule1(DescartesToken token) {
+        addChild(32, token.getLineNum());
+        addChild(33, token.getLineNum());
     }
 }

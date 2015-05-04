@@ -14,10 +14,24 @@ public class BoolTermNode extends EvalTypeNode {
     
     /**
      * @see descarteinterpreter.ParseTreeNode#Constructor(int code,
-     * ParseTreeNode parent)
+     * ParseTreeNode parent, int lineNum)
      */
-    protected BoolTermNode(int code, ParseTreeNode parent) {
-        super(code, parent);
+    protected BoolTermNode(int code, ParseTreeNode parent, int lineNum) {
+        super(code, parent, lineNum);
+    }
+    
+    @Override
+    public double evaluate() {
+        double result;
+        BoolFacNode bFac;
+        BoolFacTailNode bFacTail;
+        
+        bFac = (BoolFacNode) getChildAt(0);
+        bFacTail = (BoolFacTailNode) getChildAt(1);
+        
+        result = bFac.evaluate() * bFacTail.evaluate();
+        
+        return result;
     }
     
     /**
@@ -25,7 +39,7 @@ public class BoolTermNode extends EvalTypeNode {
      * @param   token   the current token
      */
     @Override
-    public void populateChildren(TokenPair token) {
+    public void populateChildren(DescartesToken token) {
         int tokenNum = token.getTokenNum();
         
         switch(tokenNum) {
@@ -46,8 +60,8 @@ public class BoolTermNode extends EvalTypeNode {
      * "26. bool-term : bool-factor bool-factor-tail"
      * @param   token   the current token
      */
-    private void doRule26(TokenPair token) {
-        addChild(46);
-        addChild(47);
+    private void doRule26(DescartesToken token) {
+        addChild(46, token.getLineNum());
+        addChild(47, token.getLineNum());
     }
 }

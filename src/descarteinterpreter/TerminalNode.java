@@ -20,27 +20,31 @@ public class TerminalNode extends ParseTreeNode {
 
     /**
      * @see descarteinterpreter.ParseTreeNode#Constructor(int code,
-     * ParseTreeNode parent)
+     * ParseTreeNode parent, int lineNum)
      */
-    protected TerminalNode(int code, ParseTreeNode parent) {
-        super(code, parent);
+    protected TerminalNode(int code, ParseTreeNode parent, int lineNum) {
+        super(code, parent, lineNum);
     }
     
     /**
      * Protected constructor. Initializes the parent field, but does not add the
      * new node to the children field of the parent node. Also does not add the
      * tokenStr, but initializes it to null.
-     * @param token         the token from which this node is constructed
-     * @param parent        the parent node for the new node
+     * @param parent    the parent node for the new node
+     * @param token     the token from which this node is constructed
+     * @param lineNum   the line number where the token corresponding to this
+     *                  node was found
      */
-    protected TerminalNode(ParseTreeNode parent, TokenPair token) {
-        super(token.getTokenNum(), parent);
+    protected TerminalNode(ParseTreeNode parent, DescartesToken token,
+            int lineNum) {
+        super(token.getTokenNum(), parent, lineNum);
         this.tokenStr = null;
     }
     
     @Override
     public void buildTree(Tokenizer lexer) {
         ParseTreeNode nextNode;
+        DescartesToken dataToken;
 
         try {
             populateChildren(lexer.getCurrToken());
@@ -48,6 +52,14 @@ public class TerminalNode extends ParseTreeNode {
             if(nextNode != null) {
                 lexer.getToken();
                 nextNode.buildTree(lexer);
+            } else {
+                if(getTokenStr().equals("0")) {
+                    dataToken = lexer.getToken();
+                    while(dataToken != null) {
+                        inputData.add(dataToken);
+                        dataToken = lexer.getToken();
+                    }
+                }
             }
         } catch(BufferOverflowException | IOException e) {
             System.out.println(e.getMessage());
@@ -63,10 +75,18 @@ public class TerminalNode extends ParseTreeNode {
     }
     
     /**
-     * Doesn't actually add any children, but just fills in the tokenStr.
+     * @return  the line number where this token was found, or -1 if unknown
+     */
+    public int getLineNum() {
+        return lineNum;
+    }
+    
+    /**
+     * Doesn't actually add any children, but just fills in the tokenStr and the
+     * lineNum.
      * @param   token   the current token
      */
-    public void populateChildren(TokenPair token) {
+    public void populateChildren(DescartesToken token) {
         int tokenNum = token.getTokenNum();
         
         if(tokenNum != getCode()) {

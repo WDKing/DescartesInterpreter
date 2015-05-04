@@ -16,18 +16,19 @@ import java.nio.BufferOverflowException;
 public class ProgNode extends ExecTypeNode {
 
     /**
-     * @see descarteinterpreter.ParseTreeNode#Constructor(int code)
+     * Sole public constructor of any ParseTreeNode. Initializes the code to 30
+     * and the line number to 1. The parent is null.
      */
-    public ProgNode(int code) {
-        super(code);
+    public ProgNode() {
+        super(30, 1);
     }
     
     /**
-     * @see descarteinterpreter.ParseTreeNode#Constructor(int code,
-     * ParseTreeNode parent)
+     * @see descarteinterpreter.ExecTypeNode#Constructor(int code,
+     * ParseTreeNode parent, int lineNum)
      */
-    protected ProgNode(int code, ParseTreeNode parent) {
-        super(code, parent);
+    protected ProgNode(int code, ParseTreeNode parent, int lineNum) {
+        super(code, parent, lineNum);
     }
     
     @Override
@@ -60,7 +61,7 @@ public class ProgNode extends ExecTypeNode {
  * @param   token   the current token
  */
     @Override
-    public void populateChildren(TokenPair token) {
+    public void populateChildren(DescartesToken token) {
         int tokenNum = token.getTokenNum();
         
         switch(tokenNum) {
@@ -83,8 +84,8 @@ public class ProgNode extends ExecTypeNode {
  * "0. prog : stmt-list PERIOD"
  * @param   token   the current token
  */
-    private void doRule0(TokenPair token) {
-        addChild(31);
-        addChild(0);
+    private void doRule0(DescartesToken token) {
+        addChild(31, token.getLineNum());
+        addChild(0, token.getLineNum());
     }
 }

@@ -14,10 +14,10 @@ public class BreakStmtNode extends ExecTypeNode {
 
     /**
      * @see descarteinterpreter.ParseTreeNode#Constructor(int code,
-     * ParseTreeNode parent)
+     * ParseTreeNode parent, int lineNum)
      */
-    protected BreakStmtNode(int code, ParseTreeNode parent) {
-            super(code, parent);
+    protected BreakStmtNode(int code, ParseTreeNode parent, int lineNum) {
+            super(code, parent, lineNum);
     }
     
     @Override
@@ -28,9 +28,9 @@ public class BreakStmtNode extends ExecTypeNode {
         IdOptionNode idOpt = (IdOptionNode) getChildAt(1);
         if(idOpt.hasChildren()) {
             id = (TerminalNode) idOpt.getChildAt(0);
-            tag = new ControlTag(id.getTokenStr(), true);
+            tag = new ControlTag(id.getTokenStr(), true, id.getLineNum());
         } else {
-            tag = new ControlTag("", true);
+            tag = new ControlTag("", true, lineNum);
         }
         
         return tag;
@@ -41,7 +41,7 @@ public class BreakStmtNode extends ExecTypeNode {
      * @param token the current token
      */
     @Override
-    public void populateChildren(TokenPair token) {
+    public void populateChildren(DescartesToken token) {
         int tokenNum = token.getTokenNum();
 
         switch (tokenNum) {
@@ -58,8 +58,8 @@ public class BreakStmtNode extends ExecTypeNode {
      * "15. break-stmt : BREAK id-option"
      * @param token the current token
      */
-    private void doRule15(TokenPair token) {
-        this.addChild(10);
-        this.addChild(42);
+    private void doRule15(DescartesToken token) {
+        this.addChild(10, token.getLineNum());
+        this.addChild(42, token.getLineNum());
     }
 }

@@ -14,10 +14,10 @@ public class FactorNode extends EvalTypeNode {
 
     /**
      * @see descarteinterpreter.ParseTreeNode#Constructor(int code,
-     * ParseTreeNode parent)
+     * ParseTreeNode parent, int lineNum)
      */
-    protected FactorNode(int code, ParseTreeNode parent) {
-        super(code, parent);
+    protected FactorNode(int code, ParseTreeNode parent, int lineNum) {
+        super(code, parent, lineNum);
     }
     
     @Override
@@ -47,7 +47,7 @@ public class FactorNode extends EvalTypeNode {
      * @param   token   the current token
      */
     @Override
-    public void populateChildren(TokenPair token) {
+    public void populateChildren(DescartesToken token) {
         int tokenNum = token.getTokenNum();
         
         switch(tokenNum) {
@@ -70,9 +70,9 @@ public class FactorNode extends EvalTypeNode {
      * "45. factor : - factor"
      * @param   token   the current token
      */
-    private void doRule45(TokenPair token) {
-        addChild(24);
-        addChild(52);
+    private void doRule45(DescartesToken token) {
+        addChild(24, token.getLineNum());
+        addChild(52, token.getLineNum());
     }
 
     /**
@@ -80,8 +80,8 @@ public class FactorNode extends EvalTypeNode {
      * "46. factor : atom"
      * @param   token   the current token
      */
-    private void doRule46(TokenPair token) {
-        addChild(54);
+    private void doRule46(DescartesToken token) {
+        addChild(54, token.getLineNum());
     }
 
     /**
@@ -89,9 +89,9 @@ public class FactorNode extends EvalTypeNode {
      * "47. factor : ( expr )"
      * @param   token   the current token
      */
-    private void doRule47(TokenPair token) {
-        addChild(27);
-        addChild(40);
-        addChild(28);
+    private void doRule47(DescartesToken token) {
+        addChild(27, token.getLineNum());
+        addChild(40, token.getLineNum());
+        addChild(28, token.getLineNum());
     }
 }
