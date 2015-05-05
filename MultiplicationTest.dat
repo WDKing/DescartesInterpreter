@@ -1,0 +1,4 @@
+A := 4;
+B := 6;
+RESULT := 3 *A+B*A;
+PRINT RESULT.
