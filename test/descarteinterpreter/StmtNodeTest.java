@@ -21,7 +21,6 @@ public class StmtNodeTest {
 	ProgNode rule7Tree;
 	ProgNode rule8Tree;
 	ProgNode rule9Tree;
-
 	ProgNode parent;
 	TestingTools testTools;
 	public StmtNodeTest() {
