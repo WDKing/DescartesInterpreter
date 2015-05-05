@@ -29,7 +29,7 @@ public class AtomNodeTest {
 	}
 	
 	/**
-	 * Test of populateChildren method, of class AssignStmtNode.
+	 * Test of populateChildren method, of class AtomNode.
 	 */
 	@Test
 	public void testAssignCase() {
