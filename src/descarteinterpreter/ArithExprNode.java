@@ -8,23 +8,38 @@
 package descarteinterpreter;
 
 /**
- * Representation of a "ArithExpr" node in a parse tree for Descartes-2
+ * Representation of a "arith-expr" node (#48) in a parse tree for Descartes-2
  */
-public class ArithExprNode extends ParseTreeNode {
-    
-    public ArithExprNode(int code) {
-        super(code);
+public class ArithExprNode extends EvalTypeNode {
+        
+    /**
+     * @see descarteinterpreter.ParseTreeNode#Constructor(int code,
+     * ParseTreeNode parent, int lineNum)
+     */
+    protected ArithExprNode(int code, ParseTreeNode parent, int lineNum) {
+        super(code, parent, lineNum);
     }
     
-    protected ArithExprNode(int code, ParseTreeNode parent) {
-        super(code, parent);
+    @Override
+    public double evaluate() {
+        double result;
+        TermNode term;
+        TermTailNode termTail;
+        
+        term = (TermNode) getChildAt(0);
+        termTail = (TermTailNode) getChildAt(1);
+        
+        result = term.evaluate() + termTail.evaluate();
+        
+        return result;
     }
     
     /**
      * Add child nodes based on the current token and the grammar's rules.
      * @param   token   the current token
      */
-    public void populateChildren(TokenPair token) {
+    @Override
+    public void populateChildren(DescartesToken token) {
         int tokenNum = token.getTokenNum();
         
         switch(tokenNum) {
@@ -36,17 +51,17 @@ public class ArithExprNode extends ParseTreeNode {
                         break;
             default:    throw new IllegalArgumentException();
         }
-      }
+    }
     
     //  List of Rules to Complete
     
     /**
      * Add child nodes based on rule 37 in the grammar:
-     * "37.   arith-expr : term term-tail"
+     * "37. arith-expr : term term-tail"
      * @param   token   the current token
      */
-    private void doRule37(TokenPair token) {
-        addChild(50);
-        addChild(51);
+    private void doRule37(DescartesToken token) {
+        addChild(50, token.getLineNum());
+        addChild(51, token.getLineNum());
     }
 }

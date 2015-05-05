@@ -8,23 +8,50 @@
 package descarteinterpreter;
 
 /**
- * Representation of a "FactorTail" node in a parse tree for Descartes-2
+ * Representation of a "factor-tail" node (#53) in a parse tree for Descartes-2
  */
-public class FactorTailNode extends ParseTreeNode {
-    
-    public FactorTailNode(int code) {
-        super(code);
+public class FactorTailNode extends EvalTypeNode {
+
+    /**
+     * @see descarteinterpreter.ParseTreeNode#Constructor(int code,
+     * ParseTreeNode parent, int lineNum)
+     */
+    protected FactorTailNode(int code, ParseTreeNode parent, int lineNum) {
+        super(code, parent, lineNum);
     }
     
-    protected FactorTailNode(int code, ParseTreeNode parent) {
-        super(code, parent);
+    @Override
+    public double evaluate() {
+        double result;
+        TerminalNode tn;
+        FactorNode factor;
+        FactorTailNode facTail;
+        
+        if(getChildCount() == 0) {
+            result = 1;
+        } else {
+            tn = (TerminalNode) getChildAt(0);
+            factor = (FactorNode) getChildAt(1);
+            facTail = (FactorTailNode) getChildAt(2);
+            result = factor.evaluate();
+            if(tn.getTokenStr().equals("*")) {
+		result = result* facTail.evaluate();
+	    }
+	    else if(tn.getTokenStr().equals("/") && result != 0) {
+                result = 1 /result*facTail.evaluate();
+            } else if(tn.getTokenStr().equals("/") && result == 0) {
+                result = Double.NaN;
+            }
+        }
+        return result;
     }
     
     /**
      * Add child nodes based on the current token and the grammar's rules.
      * @param   token   the current token
      */
-    public void populateChildren(TokenPair token) {
+    @Override
+    public void populateChildren(DescartesToken token) {
         int tokenNum = token.getTokenNum();
         
         switch(tokenNum) {
@@ -55,38 +82,36 @@ public class FactorTailNode extends ParseTreeNode {
                         break;
             default:    throw new IllegalArgumentException();
         }
-      }
-    
-    //  List of Rules to Complete
+     }
     
     /**
      * Add child nodes based on rule 42 in the grammar:
-     * "42.   factor-tail : * factor factor-tail"
+     * "42. factor-tail : * factor factor-tail"
      * @param   token   the current token
      */
-    private void doRule42(TokenPair token) {
-        addChild(25);
-        addChild(52);
-        addChild(53);
+    private void doRule42(DescartesToken token) {
+        addChild(25, token.getLineNum());
+        addChild(52, token.getLineNum());
+        addChild(53, token.getLineNum());
     }
 
     /**
      * Add child nodes based on rule 43 in the grammar:
-     * "43.   factor-tail : / factor factor-tail"
+     * "43. factor-tail : / factor factor-tail"
      * @param   token   the current token
      */
-    private void doRule43(TokenPair token) {
-        addChild(26);
-        addChild(52);
-        addChild(53);
+    private void doRule43(DescartesToken token) {
+        addChild(26, token.getLineNum());
+        addChild(52, token.getLineNum());
+        addChild(53, token.getLineNum());
     }
 
     /**
      * Add child nodes based on rule 44 in the grammar:
-     * "44.   factor-tail :"
+     * "44. factor-tail :"
      * @param   token   the current token
      */
-    private void doRule44(TokenPair token) {
+    private void doRule44(DescartesToken token) {
         // Intentionally Left Blank
     }
 }

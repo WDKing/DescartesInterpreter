@@ -8,23 +8,38 @@
 package descarteinterpreter;
 
 /**
- * Representation of a "Term" node in a parse tree for Descartes-2
+ * Representation of a "term" (#50) node in a parse tree for Descartes-2
  */
-public class TermNode extends ParseTreeNode {
-    
-    public TermNode(int code) {
-        super(code);
+public class TermNode extends EvalTypeNode {
+
+    /**
+     * @see descarteinterpreter.ParseTreeNode#Constructor(int code,
+     * ParseTreeNode parent, int lineNum)
+     */
+    protected TermNode(int code, ParseTreeNode parent, int lineNum) {
+        super(code, parent, lineNum);
     }
     
-    protected TermNode(int code, ParseTreeNode parent) {
-        super(code, parent);
+    @Override
+    public double evaluate() {
+        double result;
+        FactorNode fac;
+        FactorTailNode facTail;
+        
+        fac = (FactorNode) getChildAt(0);
+        facTail = (FactorTailNode) getChildAt(1);
+        
+        result = fac.evaluate() * facTail.evaluate();
+        
+        return result;
     }
     
     /**
      * Add child nodes based on the current token and the grammar's rules.
      * @param   token   the current token
      */
-    public void populateChildren(TokenPair token) {
+    @Override
+    public void populateChildren(DescartesToken token) {
         int tokenNum = token.getTokenNum();
         
         switch(tokenNum) {
@@ -36,17 +51,15 @@ public class TermNode extends ParseTreeNode {
                         break;
             default:    throw new IllegalArgumentException();
         }
-      }
-    
-    //  List of Rules to Complete
+    }
     
     /**
      * Add child nodes based on rule 41 in the grammar:
-     * "41.   term : factor factor-tail"
+     * "41. term : factor factor-tail"
      * @param   token   the current token
      */
-    private void doRule41(TokenPair token) {
-        addChild(52);
-        addChild(53);
+    private void doRule41(DescartesToken token) {
+        addChild(52, token.getLineNum());
+        addChild(53, token.getLineNum());
     }
 }

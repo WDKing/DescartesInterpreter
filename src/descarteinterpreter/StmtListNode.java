@@ -8,23 +8,41 @@
 package descarteinterpreter;
 
 /**
- * Representation of a "prog" node in a parse tree for Descartes-2
+ * Representation of a "stmt-list" node (#31) in a parse tree for Descartes-2
  */
-public class StmtListNode extends ParseTreeNode {
+public class StmtListNode extends ExecTypeNode {
     
-    public StmtListNode(int code) {
-        super(code);
+    /**
+     * @see descarteinterpreter.ParseTreeNode#Constructor(int code,
+     * ParseTreeNode parent, int lineNum)
+     */
+    protected StmtListNode(int code, ParseTreeNode parent, int lineNum) {
+        super(code, parent, lineNum);
     }
     
-    protected StmtListNode(int code, ParseTreeNode parent) {
-        super(code, parent);
+    @Override
+    public ControlTag execute() {
+        ControlTag tag;
+        StmtNode stmt;
+        StmtTailNode stmtTail;
+        
+        stmt = (StmtNode) getChildAt(0);
+        stmtTail = (StmtTailNode) getChildAt(1);
+        
+        tag = stmt.execute();
+        if(!tag.isBreak() && !tag.isError()) {
+            tag = stmtTail.execute();
+        }
+        
+        return tag;
     }
     
 /**
  * Add child nodes based on the current token and the grammar's rules.
  * @param   token   the current token
  */
-    public void populateChildren(TokenPair token) {
+    @Override
+    public void populateChildren(DescartesToken token) {
         int tokenNum = token.getTokenNum();
         
         switch(tokenNum) {
@@ -47,11 +65,11 @@ public class StmtListNode extends ParseTreeNode {
     
 /**
  * Add child nodes based on rule 1 in the grammar:
- * "1.    stmt-list : stmt stmt-tail"
+ * "1. stmt-list : stmt stmt-tail"
  * @param   token   the current token
  */
-    private void doRule1(TokenPair token) {
-        addChild(31);
-        addChild(33);
+    private void doRule1(DescartesToken token) {
+        addChild(32, token.getLineNum());
+        addChild(33, token.getLineNum());
     }
 }

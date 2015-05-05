@@ -7,66 +7,92 @@
 
 package descarteinterpreter;
 
+import java.io.IOException;
+import java.nio.BufferOverflowException;
+
 /**
- * Representation of a "prog" node in a parse tree for Descartes-2
+ * Representation of a terminal node in a parse tree for Descartes-2
  */
 public class TerminalNode extends ParseTreeNode {
 
+    /** The actual text in the program that this node represents */
     private String tokenStr = "";
-    
-    public TerminalNode(int code) {
-        super(code);
-    }
-    
-    protected TerminalNode(int code, ParseTreeNode parent) {
-        super(code, parent);
-    }
-    
-    protected TerminalNode(ParseTreeNode parent, TokenPair token) {
-        super(token.getTokenNum(), parent);
-        this.isLeaf = true;
-        this.tokenStr = token.getTokenString();
+
+    /**
+     * @see descarteinterpreter.ParseTreeNode#Constructor(int code,
+     * ParseTreeNode parent, int lineNum)
+     */
+    protected TerminalNode(int code, ParseTreeNode parent, int lineNum) {
+        super(code, parent, lineNum);
     }
     
     /**
-     * 
-     * @return  a String holding the text of the node if it is a leaf, or null
-     * if it isn't a leaf
+     * Protected constructor. Initializes the parent field, but does not add the
+     * new node to the children field of the parent node. Also does not add the
+     * tokenStr, but initializes it to null.
+     * @param parent    the parent node for the new node
+     * @param token     the token from which this node is constructed
+     * @param lineNum   the line number where the token corresponding to this
+     *                  node was found
+     */
+    protected TerminalNode(ParseTreeNode parent, DescartesToken token,
+            int lineNum) {
+        super(token.getTokenNum(), parent, lineNum);
+        this.tokenStr = null;
+    }
+    
+    @Override
+    public void buildTree(Tokenizer lexer) {
+        ParseTreeNode nextNode;
+        DescartesToken dataToken;
+
+        try {
+            populateChildren(lexer.getCurrToken());
+            nextNode = getNextInTree();
+            if(nextNode != null) {
+                lexer.getToken();
+                nextNode.buildTree(lexer);
+            } else {
+                if(getTokenStr().equals("0")) {
+                    dataToken = lexer.getToken();
+                    while(dataToken != null) {
+                        inputData.add(dataToken);
+                        dataToken = lexer.getToken();
+                    }
+                }
+            }
+        } catch(BufferOverflowException | IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    /**
+     * @return  a String holding the text of the node, if that has been
+     *          populated yet, or null if it hasn't
      */
     public String getTokenStr() {
-        return (isLeaf()? this.tokenStr : null);
+        return this.tokenStr;
     }
     
     /**
-     * A leaf is a TerminalNode that has the isLeaf flag set to true, and has
-     * a non-empty tokenStr;
+     * @return  the line number where this token was found, or -1 if unknown
+     */
+    public int getLineNum() {
+        return lineNum;
+    }
+    
+    /**
+     * Doesn't actually add any children, but just fills in the tokenStr and the
+     * lineNum.
      * @param   token   the current token
      */
-    public void addLeaf(TokenPair token) {
-        children.add(new TerminalNode(this, token));
-    }
-    
-    /**
-     * 
-     * @return  true if the isLeaf flag is set to true, false otherwise
-     */
-    public boolean isLeaf() {
-        return this.isLeaf;
-    }
-    
-    /**
-     * Add child nodes based on the implicit rule that a terminal node gets a child
-     * that matches its numeric code, given that the tokenNum of token should be
-     * the same as its code.
-     * @param   token   the current token
-     */
-    public void populateChildren(TokenPair token) {
+    public void populateChildren(DescartesToken token) {
         int tokenNum = token.getTokenNum();
         
         if(tokenNum != getCode()) {
             throw new IllegalArgumentException();
         }
         
-        addLeaf(token);
+        tokenStr = token.getTokenString();
     }
 }

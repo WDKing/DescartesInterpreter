@@ -40,75 +40,40 @@
 
 package descarteinterpreter;
 
-import java.io.PushbackReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PushbackReader;
 
 import java.nio.BufferOverflowException;
 import java.nio.charset.Charset;
 
-import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
  * Tokenizer class for Descartes-2 Interpreter.
  */
 public class Tokenizer {
-    /** indicates that the period waiting in the stream is garbage */
+    /** Indicates that the period waiting in the stream is garbage */
     private boolean garbageFlag = false;
-    /** the stream being parsed */
+    /** The stream being parsed */
     private final PushbackReader fileIn;
-    /** for building up the text of the token */
+    /** For building up the text of the token */
     private final StringBuilder tempChars = new StringBuilder(1024);
     
-    /** stores the tokens found so far */
-    private static final List<TokenPair> tokenList = new ArrayList<>(256);
-    /** non-alphanumeric characters that can start a token */
+    /** For keeping track of the line number from the file */
+    private int lineNum;
+    
+    /** Stores the tokens found so far */
+    private static final List<DescartesToken> tokenList = new ArrayList<>(256);
+    /** Non-alphanumeric characters that can start a token */
     private static final char[] SPECIAL_STARTS =
             {'(', ')', '<', '>', '/', '*', '-', '+', '=', ';', ':', '.', ','};
-    /** the reserved words and their numeric codes */
+    /** The reserved words and their numeric codes */
     private static final Map<String, Integer> RESERVED_WORDS = new HashMap<>(11);
-    
-    /**
-     * Main method just for testing the class.
-     * @param   args    not used
-     */
-    public static void main(String[] args) {
-        TokenPair nextToken;
-        Tokenizer testTokenizer;
-        
-        System.out.println("\nDisplaying the list of tokens: \n");
-
-        try
-        {
-            testTokenizer = new Tokenizer(new FileInputStream("testprog.dat"));
-            
-            while((nextToken = testTokenizer.getToken()) != null)
-            {
-                System.out.println(nextToken);
-            }
-
-            System.out.println("\nThere were " + testTokenizer.countGarbage()
-                + " occurrences of garbage in the file.");
-            
-            testTokenizer.close();
-        }
-        catch(FileNotFoundException e1) {
-            System.out.println("\nError: File not found.");
-            System.out.println(e1.getMessage());
-        } catch(BufferOverflowException e2) {
-            System.out.println("\nError: Buffer has overflowed.");
-            System.out.println(e2.getMessage());
-        } catch(IOException e3) {
-            System.out.println("\nError: Unspecified IOException.");
-            System.out.println(e3.getMessage());
-        }
-    }
     
     /**
      * Sole constructor.
@@ -118,7 +83,8 @@ public class Tokenizer {
         InputStreamReader tempRead;
         
         tempRead = new InputStreamReader(in, Charset.forName("US-ASCII"));
-        this.fileIn = new PushbackReader(tempRead, 8);
+        fileIn = new PushbackReader(tempRead, 8);
+        lineNum = 1;
         
         RESERVED_WORDS.put("IF", 2);
         RESERVED_WORDS.put("THEN", 3);
@@ -141,9 +107,9 @@ public class Tokenizer {
      * @throws  IOException if it cannot read from fileIn
      * @throws  BufferOverflowException if pushback exceeds buffer
      */
-    public TokenPair getToken() throws IOException, BufferOverflowException {
+    public DescartesToken getToken() throws IOException, BufferOverflowException {
         int temp, tokenNum = -1;
-        TokenPair result = null;
+        DescartesToken result = null;
         
         while(tokenNum == -1 || tokenNum == 55) {
         // return only non-garbage or non-whitespace
@@ -192,11 +158,11 @@ public class Tokenizer {
                                         break;
                     }
                 }
-                result = new TokenPair(tempChars.toString(), tokenNum);
+                result = new DescartesToken(tempChars.toString(), tokenNum, lineNum);
                 tokenList.add(result);
             } else if(temp > 255) {
                 tokenNum = startsGarbage();
-                result = new TokenPair(tempChars.toString(), tokenNum);
+                result = new DescartesToken(tempChars.toString(), tokenNum, lineNum);
                 tokenList.add(result);
             } else { // if at EOF
                 result = null; // return null
@@ -205,6 +171,10 @@ public class Tokenizer {
         }
         
         return result;
+    }
+    
+    public DescartesToken getCurrToken() {
+        return tokenList.get(tokenList.size() - 1);
     }
     
     /**
@@ -224,6 +194,16 @@ public class Tokenizer {
             tmp = (char) temp;
             if(!Character.isWhitespace(tmp)) {
                 getAnother = false;
+            } else {
+                if(tmp == '\r' || tmp == '\n') { // if start of a line break
+                    lineNum++;
+                    temp = fileIn.read(); // look for more of line break
+                    tmp = (char) temp;
+                    if(tmp == '\r' || tmp == '\n') { // if part of the break
+                        temp = fileIn.read(); // get another
+                    }
+                    getAnother = false; // end this whitespace token after break
+                }
             }
         }
         if(temp >= 0) { // if we didn't end on EOF
@@ -461,7 +441,7 @@ public class Tokenizer {
     public int countGarbage() {
         int result = 0;
         
-        for(TokenPair token : tokenList) {
+        for(DescartesToken token : tokenList) {
             if(token.getTokenNum() == -1) {
                 result++;
             }

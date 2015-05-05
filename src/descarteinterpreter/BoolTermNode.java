@@ -8,23 +8,38 @@
 package descarteinterpreter;
 
 /**
- * Representation of a "BoolTerm" node in a parse tree for Descartes-2
+ * Representation of a "bool-term" node (#44) in a parse tree for Descartes-2
  */
-public class BoolTermNode extends ParseTreeNode {
+public class BoolTermNode extends EvalTypeNode {
     
-    public BoolTermNode(int code) {
-        super(code);
+    /**
+     * @see descarteinterpreter.ParseTreeNode#Constructor(int code,
+     * ParseTreeNode parent, int lineNum)
+     */
+    protected BoolTermNode(int code, ParseTreeNode parent, int lineNum) {
+        super(code, parent, lineNum);
     }
     
-    protected BoolTermNode(int code, ParseTreeNode parent) {
-        super(code, parent);
+    @Override
+    public double evaluate() {
+        double result;
+        BoolFacNode bFac;
+        BoolFacTailNode bFacTail;
+        
+        bFac = (BoolFacNode) getChildAt(0);
+        bFacTail = (BoolFacTailNode) getChildAt(1);
+        
+        result = bFac.evaluate() * bFacTail.evaluate();
+        
+        return result;
     }
     
     /**
      * Add child nodes based on the current token and the grammar's rules.
      * @param   token   the current token
      */
-    public void populateChildren(TokenPair token) {
+    @Override
+    public void populateChildren(DescartesToken token) {
         int tokenNum = token.getTokenNum();
         
         switch(tokenNum) {
@@ -36,17 +51,17 @@ public class BoolTermNode extends ParseTreeNode {
                         break;
             default:    throw new IllegalArgumentException();
         }
-      }
+    }
     
     //  List of Rules to Complete
    
     /**
      * Add child nodes based on rule 26 in the grammar:
-     * "26.   bool-term : bool-factor bool-factor-tail"
+     * "26. bool-term : bool-factor bool-factor-tail"
      * @param   token   the current token
      */
-    private void doRule26(TokenPair token) {
-        addChild(46);
-        addChild(47);
+    private void doRule26(DescartesToken token) {
+        addChild(46, token.getLineNum());
+        addChild(47, token.getLineNum());
     }
 }

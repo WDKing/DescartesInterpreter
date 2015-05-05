@@ -7,24 +7,46 @@
 
 package descarteinterpreter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * Representation of a "IdListTail" node in a parse tree for Descartes-2
+ * Representation of a "id-list-tail" node (#43) in a parse tree for Descartes-2
  */
 public class IdListTailNode extends ParseTreeNode {
-    
-    public IdListTailNode(int code) {
-        super(code);
+
+    /**
+     * @see descarteinterpreter.ParseTreeNode#Constructor(int code,
+     * ParseTreeNode parent, int lineNum)
+     */
+    protected IdListTailNode(int code, ParseTreeNode parent, int lineNum) {
+        super(code, parent, lineNum);
     }
     
-    protected IdListTailNode(int code, ParseTreeNode parent) {
-        super(code, parent);
+    public List<String> getIdNames() {
+        TerminalNode firstID;
+        IdListTailNode idListTail;
+        List<String> idNames;
+        
+        if(hasChildren()) {
+            firstID = (TerminalNode) getChildAt(1);
+            idListTail = (IdListTailNode) getChildAt(2);
+            
+            idNames = idListTail.getIdNames();
+            idNames.add(0, firstID.getTokenStr());
+        } else {
+            idNames = new ArrayList<>();
+        }
+        
+        return idNames;
     }
     
     /**
      * Add child nodes based on the current token and the grammar's rules.
      * @param   token   the current token
      */
-    public void populateChildren(TokenPair token) {
+    @Override
+    public void populateChildren(DescartesToken token) {
         int tokenNum = token.getTokenNum();
         
         switch(tokenNum) {
@@ -40,27 +62,27 @@ public class IdListTailNode extends ParseTreeNode {
                         break;
             default:    throw new IllegalArgumentException();
         }
-      }
+    }
     
     //  List of Rules to Complete
 
     /**
      * Add child nodes based on rule 21 in the grammar:
-     * "21.   id-list-tail : , ID id-list-tail"
+     * "21. id-list-tail : , ID id-list-tail"
      * @param   token   the current token
      */
-    private void doRule21(TokenPair token) {
-        addChild(14);
-        addChild(7);
-        addChild(43);
+    private void doRule21(DescartesToken token) {
+        addChild(14, token.getLineNum());
+        addChild(7, token.getLineNum());
+        addChild(43, token.getLineNum());
     }
     
     /**
      * Add child nodes based on rule 22 in the grammar:
-     * "22.   id-list-tail :"
+     * "22. id-list-tail :"
      * @param   token   the current token
      */
-    private void doRule22(TokenPair token) {
+    private void doRule22(DescartesToken token) {
         // Purposely Left Empty
     }
 }

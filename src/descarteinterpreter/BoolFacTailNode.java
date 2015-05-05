@@ -8,23 +8,46 @@
 package descarteinterpreter;
 
 /**
- * Representation of a "BoolFacTail" node in a parse tree for Descartes-2
+ * Representation of a "bool-factor-tail" node (#47) in a parse tree for
+ * Descartes-2
  */
-public class BoolFacTailNode extends ParseTreeNode {
+public class BoolFacTailNode extends EvalTypeNode {
     
-    public BoolFacTailNode(int code) {
-        super(code);
+    /**
+     * @see descarteinterpreter.ParseTreeNode#Constructor(int code,
+     * ParseTreeNode parent, int lineNum)
+     */
+    protected BoolFacTailNode(int code, ParseTreeNode parent, int lineNum) {
+        super(code, parent, lineNum);
     }
     
-    protected BoolFacTailNode(int code, ParseTreeNode parent) {
-        super(code, parent);
+    @Override
+    public double evaluate() {
+        double result;
+        BoolFacNode bFac;
+        BoolFacTailNode bFacTail;
+        
+        if(hasChildren()) {
+            bFac = (BoolFacNode) getChildAt(1);
+            bFacTail = (BoolFacTailNode) getChildAt(2);
+            if(bFac.evaluate() == 0 || bFacTail.evaluate() == 0) {
+                result = 0;
+            } else {
+                result = 1;
+            }
+        } else {
+            result = 1;
+        }
+        
+        return result;
     }
     
     /**
      * Add child nodes based on the current token and the grammar's rules.
      * @param   token   the current token
      */
-    public void populateChildren(TokenPair token) {
+    @Override
+    public void populateChildren(DescartesToken token) {
         int tokenNum = token.getTokenNum();
         
         switch(tokenNum) {
@@ -43,19 +66,19 @@ public class BoolFacTailNode extends ParseTreeNode {
                         break;
             default:    throw new IllegalArgumentException();
         }
-      }
+    }
     
     //  List of Rules to Complete
     
     /**
      * Add child nodes based on rule 27 in the grammar:
-     * "27.   bool-factor-tail : AND bool-factor bool-factor-tail"
+     * "27. bool-factor-tail : AND bool-factor bool-factor-tail"
      * @param   token   the current token
      */
-    private void doRule27(TokenPair token) {
-        addChild(16);
-        addChild(46);
-        addChild(47);
+    private void doRule27(DescartesToken token) {
+        addChild(16, token.getLineNum());
+        addChild(46, token.getLineNum());
+        addChild(47, token.getLineNum());
     }
     
     /**
@@ -63,7 +86,7 @@ public class BoolFacTailNode extends ParseTreeNode {
      * "28.   bool-factor-tail : "
      * @param   token   the current token
      */
-    private void doRule28(TokenPair token) {
+    private void doRule28(DescartesToken token) {
         // Intentionally Left Blank
     }
 }
