@@ -43,7 +43,7 @@ public class BoolTermNodeTest {
 		parent.addChild(44, -1);
 		BoolTermNode Assign = (BoolTermNode) parent.getChildAt(0);
 		Assign.addChild(46, -1);
-    Assign.addChild(47, -1);
+                Assign.addChild(47, -1);
 		return parent;
 	}
 }
