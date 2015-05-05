@@ -26,7 +26,7 @@ public class BoolTermNodeTest {
 	}
 	
 	/**
-	 * Test of populateChildren method, of class AssignStmtNode.
+	 * Test of populateChildren method, of class BoolTermNode.
 	 */
 	@Test
 	public void testAssignCase() {
