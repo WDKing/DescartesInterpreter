@@ -14,8 +14,8 @@ public class TestingTools {
 	 *
 	 * @param one parse tree node from the first tree.
 	 * @param two parse tree node from the second tree.
-	 * @return <code>True</code> if the Parse trees are equivalent.
-	 * <code>False</code> if the Parse Trees are not equivalent
+	 * @return <code>true</code> if the Parse trees are equivalent.
+	 * <code>false</code> if the Parse Trees are not equivalent
 	 */
 	public boolean compareTrees(ParseTreeNode one, ParseTreeNode two) {
 		if (one.getClass() != two.getClass()) {
