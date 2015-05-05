@@ -42,7 +42,7 @@ public class LoopStmtNodeTest {
 	}
 	
 	/**
-	 * Test Loop stmt case of the populateChildrent method, of class LoopStmtNode.
+	 * Test Loop stmt case of the populateChildren method, of class LoopStmtNode.
 	 */
 	@Test
 	public void LoopStmtCase() {
