@@ -7,7 +7,7 @@ IF Z >= X THEN
 ELSE RESULT := Z FI;
 Y := 4;
 Q := 5;
-IF Z >=Q THEN
+IF Z >=Y THEN
 	PRINT Z
 	ELSE PRINT Q FI;
 X := 5;
@@ -17,6 +17,6 @@ IF Z <= X THEN
 	ELSE PRINT X FI;
 Y := 4;
 Q := 5;
-IF Q <=Z THEN
+IF Q <=Y THEN
 	PRINT Q
 	ELSE PRINT Z FI.
