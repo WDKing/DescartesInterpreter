@@ -4,5 +4,19 @@ Z := 5;
 IF Z >= X THEN
 	Z := Z-Y;
 	PRINT Z; 
-ELSE RESULT := Z; PRINT RESULT FI
+ELSE RESULT := Z FI;
 Y := 4;
+Q := 5;
+IF Z >=Q THEN
+	PRINT Z
+	ELSE PRINT Q FI;
+X := 5;
+Z := 5;
+IF Z <= X THEN
+	PRINT Z
+	ELSE PRINT X FI;
+Y := 4;
+Q := 5;
+IF Q <=Z THEN
+	PRINT Q
+	ELSE PRINT Z FI.
