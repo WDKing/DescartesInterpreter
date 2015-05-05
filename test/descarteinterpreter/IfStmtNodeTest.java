@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package descarteinterpreter;
 
 import org.junit.After;
@@ -11,30 +6,43 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
+ * Test Class of the IfStmtNode Class.
  *
- * @author Benjamin
+ * @author Shelley King
+ * @author William King
+ * @author Benjamin Boudra
  */
 public class IfStmtNodeTest {
 	
+	/**
+	 * Holds the test tree based upon rule 11 in the grammar
+	 */
 	ProgNode rule11Tree; 
-	ProgNode parent;
-	TestingTools testTools;
-	public IfStmtNodeTest() {
-	}
 	
+	/**
+	 * Parent node that will act as a parent of the object we are are
+	 * testing, necessary because only prog node has a constructor that
+	 * doesn't call parent.
+	 */
+	ProgNode parent;
+	/**
+	 * Holds the testing tools object
+	 */
+	TestingTools testTools;
+
+	
+	/**
+	 * Builds the Test Tree and creates testing objects.
+	 */
 	@Before
 	public void setUp() {
 		rule11Tree = this.buildTestTree11();
 		parent = new ProgNode();
 		testTools = new TestingTools();
 	}
-	
-	@After
-	public void tearDown() {
-	}
 
 	/**
-	 * Test of populateChildren method, of class IfStmtNode.
+	 * Test of the If case of the populateChildren method, of class IfStmtNode.
 	 */
 	@Test
 	public void testIfCase() {
@@ -46,6 +54,13 @@ public class IfStmtNodeTest {
 		
 	}
 
+	
+	/**
+	 * Builds a test Tree based on rule 11 of the grammar and returns it to
+	 * the caller.
+	 *
+	 * @return the test Tree based on rule 11 of the grammar.
+	 */
 	public ProgNode buildTestTree11()
 	{
 		ProgNode prog = new ProgNode();

@@ -35,10 +35,10 @@ public class FactorTailNode extends EvalTypeNode {
             facTail = (FactorTailNode) getChildAt(2);
             result = factor.evaluate();
             if(tn.getTokenStr().equals("*")) {
-		result = result* facTail.evaluate();
+		result = result * facTail.evaluate();
 	    }
-	    else if(tn.getTokenStr().equals("/") && result != 0) {
-                result = 1 /result*facTail.evaluate();
+	    else if( tn.getTokenStr().equals("/") && result != 0) {
+                result = 1 / result * facTail.evaluate();
             } else if(tn.getTokenStr().equals("/") && result == 0) {
                 result = Double.NaN;
             }

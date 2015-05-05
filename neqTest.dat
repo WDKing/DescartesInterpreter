@@ -1,0 +1,14 @@
+Y := 0;
+X := 5;
+Z := 5;
+IF X <> Z THEN
+	PRINT X
+	ELSE PRINT Y FI;
+X := 4;
+Z := 5;
+IF X <> Z THEN
+	PRINT X
+	ELSE PRINT Y FI.
+
+
+

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package descarteinterpreter;
 
 import org.junit.After;
@@ -11,17 +6,34 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
+ * Test Class of the ReadStmtNode Class.
  *
- * @author Benjamin
+ * @author Shelley King
+ * @author William King
+ * @author Benjamin Boudra
  */
 public class ReadStmtNodeTest {
 	
+	/**
+	 * Holds the test tree based upon rule 20 in the grammar
+	 */
 	ProgNode rule20Tree;
+
+	/**
+	 * Parent node that will act as a parent of the object we are are
+	 * testing, necessary because only prog node has a constructor that
+	 * doesn't call parent.
+	 */
 	ProgNode parent;
-	TestingTools testTools;
-	public ReadStmtNodeTest() {
-	}
 	
+	/**
+	 * Holds the testing tools object
+	 */
+	TestingTools testTools;
+	
+	/**
+	 * Builds the Test Tree and creates testing objects.
+	 */
 	@Before
 	public void setUp() {
 		rule20Tree = this.buildTestTree20();
@@ -29,10 +41,10 @@ public class ReadStmtNodeTest {
 		parent = new ProgNode();
 	}
 	
-	@After
-	public void tearDown() {
-	}
-
+	/**
+	 * Test of the READ Case of the populateChildren method, of class
+	 * ReadStmtNode.
+	 */
 	@Test
 	public void testReadStmtCase() {
 		parent.addChild(38, -1);
@@ -42,6 +54,12 @@ public class ReadStmtNodeTest {
 		assertTrue(this.testTools.compareTrees(parent, rule20Tree));
 	}
 
+	/**
+	 * Builds a test Tree based on rule 20 of the grammar and returns it to
+	 * the caller.
+	 *
+	 * @return the test Tree based on rule 20 of the grammar.
+	 */
 	public ProgNode buildTestTree20()
 	{
 		ProgNode parent = new ProgNode();

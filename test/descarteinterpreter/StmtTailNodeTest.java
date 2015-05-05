@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package descarteinterpreter;
 
 import org.junit.After;
@@ -11,15 +6,32 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
+ * Test Class of the stmtTailNode Class.
  *
- * @author Benjamin
+ * @author Shelley King
+ * @author William King
+ * @author Benjamin Boudra
  */
 public class StmtTailNodeTest {
 	
+	/**
+	 * Holds the test tree based upon rule 2 in the grammar
+	 */
 	ProgNode rule2Tree; 
+	/**
+	 * Parent node that will act as a parent of the object we are are
+	 * testing, necessary because only prog node has a constructor that
+	 * doesn't call parent.
+	 */
 	ProgNode parent;
+	/**
+	 * Holds the testing tools object
+	 */
 	TestingTools testTools;
 	
+	/**
+	 * Builds the Test Tree and creates testing objects.
+	 */
 	@Before
 	public void setUp() {
 		rule2Tree = this.buildRule2Tree();
@@ -27,10 +39,10 @@ public class StmtTailNodeTest {
 		testTools = new TestingTools();
 	}
 	
-	@After
-	public void tearDown() {
-	}
-
+	/**
+	 * Test of the Semicolon Case of the populateChildren method, of class
+	 * StmtTailNode.
+	 */
 	@Test
 	public void testSemicolonCase()
 	{
@@ -41,6 +53,12 @@ public class StmtTailNodeTest {
 		assertTrue(this.testTools.compareTrees(parent, rule2Tree));
 	}
 
+	/**
+	 * Builds a test Tree based on rule 2 of the grammar and returns it to
+	 * the caller.
+	 *
+	 * @return the test Tree based on rule 2 of the grammar.
+	 */
 	public ProgNode buildRule2Tree()
 	{
 		ProgNode parent = new ProgNode();

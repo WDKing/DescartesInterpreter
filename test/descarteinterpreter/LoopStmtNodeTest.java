@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package descarteinterpreter;
 
 import org.junit.After;
@@ -11,17 +6,34 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
+ * Test Class of the LoopStmtNode Class.
  *
- * @author Benjamin
+ * @author Shelley King
+ * @author William King
+ * @author Benjamin Boudra
  */
 public class LoopStmtNodeTest {
 	
+	/**
+	 * Holds the test tree based upon rule 14 in the grammar
+	 */
 	ProgNode rule14Tree;
-	ProgNode parent;
-	TestingTools testTools;
-	public LoopStmtNodeTest() {
-	}
 	
+	/**
+	 * Parent node that will act as a parent of the object we are are
+	 * testing, necessary because only prog node has a constructor that
+	 * doesn't call parent.
+	 */
+	ProgNode parent;
+	
+	/**
+	 * Holds the testing tools object
+	 */
+	TestingTools testTools;
+
+	/**
+	 * Builds the Test Tree and creates testing objects.
+	 */
 	@Before
 	public void setUp() {
 		rule14Tree = this.buildTestTree14();
@@ -29,12 +41,8 @@ public class LoopStmtNodeTest {
 		parent = new ProgNode();
 	}
 	
-	@After
-	public void tearDown() {
-	}
-
 	/**
-	 * Test of execute method, of class LoopStmtNode.
+	 * Test Loop stmt case of the execute method, of class LoopStmtNode.
 	 */
 	@Test
 	public void LoopStmtCase() {
@@ -46,6 +54,12 @@ public class LoopStmtNodeTest {
 	}
 
 
+	/**
+	 * Builds a test Tree based on rule 14 of the grammar and returns it to
+	 * the caller.
+	 *
+	 * @return the test Tree based on rule 14 of the grammar.
+	 */
 	public ProgNode buildTestTree14()
 	{
 		ProgNode parent = new ProgNode();

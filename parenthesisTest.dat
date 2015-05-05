@@ -1,0 +1,9 @@
+X := 5;
+Y := 10;
+Z := 50;
+RESULT := X + (Y * Z);
+PRINT RESULT;
+RESULT := (X + Y) * Z;
+PRINT RESULT;
+RESULT := (X + ( Z * (X + 5)));
+PRINT RESULT.
