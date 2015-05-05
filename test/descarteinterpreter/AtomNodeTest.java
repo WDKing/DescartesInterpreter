@@ -11,6 +11,13 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+/**
+ * Test Class of the ExprNode Class.
+ *
+ * @author Shelley King
+ * @author William King
+ * @author Benjamin Boudra
+ */
 public class AtomNodeTest {
 	
 	/**
