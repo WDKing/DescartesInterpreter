@@ -1,0 +1,6 @@
+X := 5;
+SUM := 1 + X;
+NEGATIVESUM := -X+1;
+PRINT SUM;
+PRINT NEGATIVESUM.
+ 

@@ -22,7 +22,7 @@ public class ProgNodeTest {
 	@Before
 	public void setUp() {
 		testTools = new TestingTools();
-		 prog = new ProgNode(30);
+		 prog = new ProgNode();
 	}
 
 
@@ -32,7 +32,7 @@ public class ProgNodeTest {
 	@Test
 	public void TestPopulateChildrenPeriod() {
 		System.out.println("populateChildren");
-		TokenPair tok = new TokenPair(".", 0);
+		DescartesToken tok = new DescartesToken(".", 0,-1);
 		prog.populateChildren(tok);
 		assertTrue(testTools.compareTrees(buildTestTree1(), prog));
 	}
@@ -43,7 +43,7 @@ public class ProgNodeTest {
 	@Test
 	public void TestPopulateChildrenSemicolon() {
 		System.out.println("populateChildren");
-		TokenPair tok = new TokenPair(";", 1);
+		DescartesToken tok = new DescartesToken(";", 1,-1);
 		prog.populateChildren(tok);
 		assertTrue(testTools.compareTrees(buildTestTree2(), prog));
 	}
@@ -54,7 +54,7 @@ public class ProgNodeTest {
 	@Test
 	public void TestPopulateChildrenIf() {
 		System.out.println("populateChildren");
-		TokenPair tok = new TokenPair("IF", 2);
+		DescartesToken tok = new DescartesToken("IF", 2,-1);
 		prog.populateChildren(tok);
 		assertTrue(testTools.compareTrees(buildTestTree3(), prog));
 	}
@@ -65,7 +65,7 @@ public class ProgNodeTest {
 	@Test
 	public void TestPopulateChildrenLoop() {
 		System.out.println("populateChildren");
-		TokenPair tok = new TokenPair("LOOP", 6);
+		DescartesToken tok = new DescartesToken("LOOP", 6,-1);
 		prog.populateChildren(tok);
 		assertTrue(testTools.compareTrees(buildTestTree4(), prog));
 	}
@@ -76,7 +76,7 @@ public class ProgNodeTest {
 	@Test
 	public void TestPopulateChildrenId() {
 		System.out.println("populateChildren");
-		TokenPair tok = new TokenPair("SOMEIDENT", 7);
+		DescartesToken tok = new DescartesToken("SOMEIDENT", 7,-1);
 		prog.populateChildren(tok);
 		assertTrue(testTools.compareTrees(buildTestTree5(), prog));
 	}
@@ -87,7 +87,7 @@ public class ProgNodeTest {
 	@Test
 	public void TestPopulateChildrenBreak() {
 		System.out.println("populateChildren");
-		TokenPair tok = new TokenPair("BREAK", 10);
+		DescartesToken tok = new DescartesToken("BREAK", 10,-1);
 		prog.populateChildren(tok);
 		assertTrue(testTools.compareTrees(buildTestTree6(), prog));
 	}
@@ -99,7 +99,7 @@ public class ProgNodeTest {
 	@Test
 	public void TestPopulateChildrenPrint() {
 		System.out.println("populateChildren");
-		TokenPair tok = new TokenPair("PRINT", 12);
+		DescartesToken tok = new DescartesToken("PRINT", 12,-1);
 		prog.populateChildren(tok);
 		assertTrue(testTools.compareTrees(buildTestTree7(), prog));
 	}
@@ -110,7 +110,7 @@ public class ProgNodeTest {
 	@Test
 	public void TestPopulateChildrenRead() {
 		System.out.println("populateChildren");
-		TokenPair tok = new TokenPair("READ", 13);
+		DescartesToken tok = new DescartesToken("READ", 13,-1);
 		prog.populateChildren(tok);
 		assertTrue(testTools.compareTrees(buildTestTree8(), prog));
 	}
@@ -120,10 +120,9 @@ public class ProgNodeTest {
 	 */
 	public ProgNode buildTestTree1()
 	{
-		new TokenPair(".", 0);
-		ProgNode prog = new ProgNode(30);
-		prog.addChild(31);
-		prog.addChild(0);
+		ProgNode prog = new ProgNode();
+		prog.addChild(31,-1);
+		prog.addChild(0, -1);
 		return prog;
 	}
 	
@@ -133,10 +132,9 @@ public class ProgNodeTest {
 	 */
 	public ProgNode buildTestTree2()
 	{
-		TokenPair tokenPair = new TokenPair(";", 1);
-		ProgNode prog = new ProgNode(30);
-		prog.addChild(31);
-		prog.addChild(0);
+		ProgNode prog = new ProgNode();
+		prog.addChild(31,-1);
+		prog.addChild(0, -1);
 		return prog;
 	}
 
@@ -146,10 +144,9 @@ public class ProgNodeTest {
 	 */
 	public ProgNode buildTestTree3()
 	{
-		new TokenPair("IF",2);
-		ProgNode prog = new ProgNode(30);
-		prog.addChild(31);
-		prog.addChild(0);
+		ProgNode prog = new ProgNode();
+		prog.addChild(31,-1);
+		prog.addChild(0, -1);
 		return prog;
 	}
 
@@ -158,10 +155,9 @@ public class ProgNodeTest {
 	 */
 	public ProgNode buildTestTree4()
 	{
-		new TokenPair("LOOP", 6);
-		ProgNode prog = new ProgNode(30);
-		prog.addChild(31);
-		prog.addChild(0);
+		ProgNode prog = new ProgNode();
+		prog.addChild(31,-1);
+		prog.addChild(0, -1);
 		return prog;
 	}
 
@@ -170,10 +166,9 @@ public class ProgNodeTest {
 	 */
 	public ProgNode buildTestTree5()
 	{
-		new TokenPair("SOMEINDENT",7);
-		ProgNode prog = new ProgNode(30);
-		prog.addChild(31);
-		prog.addChild(0);
+		ProgNode prog = new ProgNode();
+		prog.addChild(31,-1);
+		prog.addChild(0, -1);
 		return prog;
 	}
 
@@ -182,10 +177,9 @@ public class ProgNodeTest {
 	 */
 	public ProgNode buildTestTree6()
 	{
-		new TokenPair("BREAK", 10);
-		ProgNode prog = new ProgNode(30);
-		prog.addChild(31);
-		prog.addChild(0);
+		ProgNode prog = new ProgNode();
+		prog.addChild(31,-1);
+		prog.addChild(0, -1);
 		return prog;
 	}
 
@@ -194,10 +188,9 @@ public class ProgNodeTest {
 	 */
 	public ProgNode buildTestTree7()
 	{
-		new TokenPair("PRINT",12);
-		ProgNode prog = new ProgNode(30);
-		prog.addChild(31);
-		prog.addChild(0);
+		ProgNode prog = new ProgNode();
+		prog.addChild(31,-1);
+		prog.addChild(0, -1);
 		return prog;
 	}
 
@@ -206,10 +199,9 @@ public class ProgNodeTest {
 	 */
 	public ProgNode buildTestTree8()
 	{
-		new TokenPair("READ", 13);
-		ProgNode prog = new ProgNode(30);
-		prog.addChild(31);
-		prog.addChild(0);
+		ProgNode prog = new ProgNode();
+		prog.addChild(31,-1);
+		prog.addChild(0, -1);
 		return prog;
 	}
 
