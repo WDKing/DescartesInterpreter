@@ -27,7 +27,8 @@ public class Interpreter
         ProgNode progTree = new ProgNode();
         ParseTreeIterator ptIter;
         InputStream fileIn;
-        ControlTag tag;
+        ControlTag tag = null;
+        boolean parsed = false, executed = false;
         
         System.out.println("DESCARTES-2 INTERPRETER");
         
@@ -35,25 +36,43 @@ public class Interpreter
         if(fileIn != null) {
             System.out.println("\nParsing file " + theFileName + " ...");
             lexer = new Tokenizer(fileIn);
-            progTree.buildTree(lexer);
-            System.out.println("Executing file " + theFileName + " ...");
-            System.out.println("\n********************");
-            tag = progTree.execute();
-            System.out.println("********************");
-            
-            if(tag.isBreak() || tag.isError()) {
-                System.out.println("\nError in program.");
-                System.out.println("Execution halted at line "
-                        + tag.getLineNum());
-            } else {
-                System.out.println("\nExecution completed successfully.");
+            try {
+                progTree.buildTree(lexer);
+                parsed = true;
+            } catch (Exception e) {
+                System.out.println("Error parsing file.");
+                parsed = false;
             }
             
-            System.out.println("\nFinal symbol table:");
-            Set<String> keys = progTree.getSymbolTable().keySet();
-            for(String k : keys) {
-                System.out.printf("%-16s %.2f", "\n" + k + ": ",
-                        progTree.getSymbolTable().get(k));
+            if(parsed) {
+                System.out.println("Executing file " + theFileName + " ...");
+                System.out.println("\n********************");
+                try {
+                    tag = progTree.execute();
+                    executed = true;
+                } catch (Exception e) {
+                    System.out.println("Error parsing file.");
+                    executed = false;
+                }
+                
+                System.out.println("********************");
+
+                if(parsed && executed) {
+                    if(tag.isBreak() || tag.isError()) {
+                        System.out.println("\nError in program.");
+                        System.out.println("Execution halted at line "
+                                + tag.getLineNum());
+                    } else {
+                        System.out.println("\nExecution completed successfully.");
+                    }
+
+                    System.out.println("\nFinal symbol table:");
+                    Set<String> keys = progTree.getSymbolTable().keySet();
+                    for(String k : keys) {
+                        System.out.printf("%-16s %.2f", "\n" + k + ": ",
+                                progTree.getSymbolTable().get(k));
+                    }
+                }
             }
         }
         
