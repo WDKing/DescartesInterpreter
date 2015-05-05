@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package descarteinterpreter;
 
 import org.junit.Before;
@@ -10,15 +5,27 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
+ * Test Class of the ProgNode Class.
  *
- * @author benjamin
+ * @author Shelley King
+ * @author William King
+ * @author Benjamin Boudra
  */
 public class ProgNodeTest {
+	/**
+	 * Holds the testing tools object
+	 */
 	TestingTools testTools;
-	ProgNode prog;
-	public ProgNodeTest() {
-	}
 	
+	/**
+	 * The object that will be tested.
+	 */
+	ProgNode prog;
+
+	
+	/**
+	 * Creates the different objects used for testing.
+	 */
 	@Before
 	public void setUp() {
 		testTools = new TestingTools();
@@ -27,7 +34,7 @@ public class ProgNodeTest {
 
 
 	/**
-	 * Test of populateChildren method, of class ProgNode.
+	 * Test of the period case of the populateChildren method, of class ProgNode.
 	 */
 	@Test
 	public void TestPopulateChildrenPeriod() {
@@ -38,7 +45,7 @@ public class ProgNodeTest {
 	}
 
 	/**
-	 * Test of populateChildren method, of class ProgNode.
+	 * Test of the Semicolon case populateChildren method, of class ProgNode.
 	 */
 	@Test
 	public void TestPopulateChildrenSemicolon() {
@@ -49,7 +56,7 @@ public class ProgNodeTest {
 	}
 
 	/**
-	 * Test of populateChildren method, of class ProgNode.
+	 * Test of the if case populateChildren method, of class ProgNode.
 	 */
 	@Test
 	public void TestPopulateChildrenIf() {
@@ -60,7 +67,7 @@ public class ProgNodeTest {
 	}
 
 	/**
-	 * Test of populateChildren method, of class ProgNode.
+	 * Test of the LOOP case of the populateChildren method, of class ProgNode.
 	 */
 	@Test
 	public void TestPopulateChildrenLoop() {
@@ -71,7 +78,7 @@ public class ProgNodeTest {
 	}
 
 	/**
-	 * Test of populateChildren method, of class ProgNode.
+	 * Test of the ID case of the populateChildren method, of class ProgNode.
 	 */
 	@Test
 	public void TestPopulateChildrenId() {
@@ -82,7 +89,7 @@ public class ProgNodeTest {
 	}
 
 	/**
-	 * Test of populateChildren method, of class ProgNode.
+	 * Test of the BREAK case of the populateChildren method, of class ProgNode.
 	 */
 	@Test
 	public void TestPopulateChildrenBreak() {
@@ -94,7 +101,7 @@ public class ProgNodeTest {
 	
 
 	/**
-	 * Test of populateChildren method, of class ProgNode.
+	 * Test of the PRINT case of the populateChildren method, of class ProgNode.
 	 */
 	@Test
 	public void TestPopulateChildrenPrint() {
@@ -105,7 +112,7 @@ public class ProgNodeTest {
 	}
 	
 	/**
-	 * Test of populateChildren method, of class ProgNode.
+	 * Test of the READ case of the populateChildren method, of class ProgNode.
 	 */
 	@Test
 	public void TestPopulateChildrenRead() {
@@ -116,7 +123,10 @@ public class ProgNodeTest {
 	}
 	
 	/**
-	 * 
+	 * Builds a test Tree based on rule 1 of the grammar and returns it to
+	 * the caller.
+	 *
+	 * @return the test Tree based on rule 1 of the grammar.
 	 */
 	public ProgNode buildTestTree1()
 	{
@@ -127,8 +137,10 @@ public class ProgNodeTest {
 	}
 	
 	/**
-	 * 
-	 * @return 
+	 * Builds a test Tree based on rule 1 of the grammar and returns it to
+	 * the caller.
+	 *
+	 * @return the test Tree based on rule 1 of the grammar.
 	 */
 	public ProgNode buildTestTree2()
 	{
@@ -140,7 +152,10 @@ public class ProgNodeTest {
 
 
 	/**
-	 * 
+	 * Builds a test Tree based on rule 1 of the grammar and returns it to
+	 * the caller.
+	 *
+	 * @return the test Tree based on rule 1 of the grammar.
 	 */
 	public ProgNode buildTestTree3()
 	{
@@ -151,7 +166,10 @@ public class ProgNodeTest {
 	}
 
 	/**
-	 * 
+	 * Builds a test Tree based on rule 1 of the grammar and returns it to
+	 * the caller.
+	 *
+	 * @return the test Tree based on rule 1 of the grammar.
 	 */
 	public ProgNode buildTestTree4()
 	{
@@ -162,7 +180,10 @@ public class ProgNodeTest {
 	}
 
 	/**
-	 * 
+	 * Builds a test Tree based on rule 1 of the grammar and returns it to
+	 * the caller.
+	 *
+	 * @return the test Tree based on rule 1 of the grammar.
 	 */
 	public ProgNode buildTestTree5()
 	{
@@ -173,7 +194,10 @@ public class ProgNodeTest {
 	}
 
 	/**
-	 * 
+	 * Builds a test Tree based on rule 1 of the grammar and returns it to
+	 * the caller.
+	 *
+	 * @return the test Tree based on rule 1 of the grammar.
 	 */
 	public ProgNode buildTestTree6()
 	{
@@ -184,7 +208,10 @@ public class ProgNodeTest {
 	}
 
 	/**
-	 * 
+	 * Builds a test Tree based on rule 1 of the grammar and returns it to
+	 * the caller.
+	 *
+	 * @return the test Tree based on rule 1 of the grammar.
 	 */
 	public ProgNode buildTestTree7()
 	{
@@ -195,7 +222,10 @@ public class ProgNodeTest {
 	}
 
 	/**
-	 * 
+	 * Builds a test Tree based on rule 1 of the grammar and returns it to
+	 * the caller.
+	 *
+	 * @return the test Tree based on rule 1 of the grammar.
 	 */
 	public ProgNode buildTestTree8()
 	{

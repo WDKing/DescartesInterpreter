@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package descarteinterpreter;
 
 import org.junit.After;
@@ -11,17 +6,34 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
+ * Test Class of the PrintStmtNode Class.
  *
- * @author Benjamin
+ * @author Shelley King
+ * @author William King
+ * @author Benjamin Boudra
  */
 public class PrintStmtNodeTest {
 	
+	/**
+	 * Holds the test tree based upon rule 19 in the grammar.
+	 */
 	ProgNode rule19Tree;
-	ProgNode parent;
-	TestingTools testTools;
-	public PrintStmtNodeTest() {
-	}
 	
+	/**
+	 * Parent node that will act as a parent of the object we are are
+	 * testing, necessary because only prog node has a constructor that
+	 * doesn't call parent.
+	 */
+	ProgNode parent;
+	
+	/**
+	 * Holds the testing tools object
+	 */
+	TestingTools testTools;
+
+	/**
+	 * Builds the Test Tree and creates testing objects.
+	 */
 	@Before
 	public void setUp() {
 		rule19Tree = this.buildTestTree19();
@@ -30,6 +42,10 @@ public class PrintStmtNodeTest {
 	}
 
 
+	/**
+	 * Test of the Print Case of the populateChildren method, of class
+	 * PrintStmtNode.
+	 */
 	@Test
 	public void testReadStmtCase() {
 		parent.addChild(39, -1);
@@ -39,6 +55,12 @@ public class PrintStmtNodeTest {
 		assertTrue(this.testTools.compareTrees(parent, rule19Tree));
 	}
 
+	/**
+	 * Builds a test Tree based on rule 19 of the grammar and returns it to
+	 * the caller.
+	 *
+	 * @return the test Tree based on rule 19 of the grammar.
+	 */
 	public ProgNode buildTestTree19()
 	{
 		ProgNode parent = new ProgNode();
