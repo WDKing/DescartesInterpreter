@@ -47,7 +47,7 @@ public class PrintStmtNodeTest {
 	 * PrintStmtNode.
 	 */
 	@Test
-	public void testReadStmtCase() {
+	public void testPrintStmtCase() {
 		parent.addChild(39, -1);
 		PrintStmtNode print =(PrintStmtNode) parent.getChildAt(0);
 		DescartesToken dT = new DescartesToken("PRINT",12,-1);
